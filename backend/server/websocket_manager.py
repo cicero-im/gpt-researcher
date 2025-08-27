@@ -1,10 +1,10 @@
 import asyncio
 <<<<<<< HEAD
+from typing import Dict, List
+=======
 import contextlib
 import logging
-=======
-from typing import Dict, List
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
 from fastapi import WebSocket
 
@@ -92,27 +92,6 @@ class WebSocketManager:
                 logger.error(f"Error disconnecting websocket: {e}")
 
 <<<<<<< HEAD
-    async def start_streaming(
-        self,
-        task,
-        report_type,
-        report_source,
-        source_urls,
-        document_urls,
-        tone,
-        websocket,
-        headers=None,
-        query_domains=None,
-        mcp_enabled=False,
-        mcp_strategy="fast",
-        mcp_configs=None,
-    ):
-        """Start streaming the output."""
-        if mcp_configs is None:
-            mcp_configs = []
-        if query_domains is None:
-            query_domains = []
-=======
     async def start_streaming(self, task, report_type, report_source, source_urls, document_urls, tone, websocket, headers=None, query_domains=[], mcp_enabled=False, mcp_strategy="fast", mcp_configs=[]):
         """
         Start a research run and stream its output, then initialize a chat agent with the produced report.
@@ -136,7 +115,28 @@ class WebSocketManager:
         Returns:
             str: Generated report content.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def start_streaming(
+        self,
+        task,
+        report_type,
+        report_source,
+        source_urls,
+        document_urls,
+        tone,
+        websocket,
+        headers=None,
+        query_domains=None,
+        mcp_enabled=False,
+        mcp_strategy="fast",
+        mcp_configs=None,
+    ):
+        """Start streaming the output."""
+        if mcp_configs is None:
+            mcp_configs = []
+        if query_domains is None:
+            query_domains = []
+>>>>>>> newdev
         tone = Tone[tone]
         # add customized JSON config file path here
         config_path = "default"
@@ -144,6 +144,10 @@ class WebSocketManager:
         # Pass MCP parameters to run_agent
         report = await run_agent(
 <<<<<<< HEAD
+            task, report_type, report_source, source_urls, document_urls, tone, websocket,
+            headers=headers, query_domains=query_domains, config_path=config_path,
+            mcp_enabled=mcp_enabled, mcp_strategy=mcp_strategy, mcp_configs=mcp_configs
+=======
             task,
             report_type,
             report_source,
@@ -157,11 +161,7 @@ class WebSocketManager:
             mcp_enabled=mcp_enabled,
             mcp_strategy=mcp_strategy,
             mcp_configs=mcp_configs,
-=======
-            task, report_type, report_source, source_urls, document_urls, tone, websocket,
-            headers=headers, query_domains=query_domains, config_path=config_path,
-            mcp_enabled=mcp_enabled, mcp_strategy=mcp_strategy, mcp_configs=mcp_configs
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
         )
 
         # Create new Chat Agent whenever a new report is written
@@ -186,30 +186,7 @@ class WebSocketManager:
             })
 
 <<<<<<< HEAD
-
-async def run_agent(
-    task,
-    report_type,
-    report_source,
-    source_urls,
-    document_urls,
-    tone: Tone,
-    websocket,
-    stream_output=stream_output,
-    headers=None,
-    query_domains=None,
-    config_path="",
-    return_researcher=False,
-    mcp_enabled=False,
-    mcp_strategy="fast",
-    mcp_configs=None,
-):
-=======
 async def run_agent(task, report_type, report_source, source_urls, document_urls, tone: Tone, websocket, stream_output=stream_output, headers=None, query_domains=[], config_path="", return_researcher=False, mcp_enabled=False, mcp_strategy="fast", mcp_configs=[]):
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-    """Run the agent."""
-=======
     """
     Run a research agent to produce a report (Basic, Detailed, or multi-agent) and stream progress to a websocket.
     
@@ -242,7 +219,27 @@ async def run_agent(task, report_type, report_source, source_urls, document_urls
     - Sends structured log messages to the provided websocket via CustomLogsHandler.
     - May modify environment variables "RETRIEVER" and "MCP_STRATEGY" when MCP is enabled.
     """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+
+async def run_agent(
+    task,
+    report_type,
+    report_source,
+    source_urls,
+    document_urls,
+    tone: Tone,
+    websocket,
+    stream_output=stream_output,
+    headers=None,
+    query_domains=None,
+    config_path="",
+    return_researcher=False,
+    mcp_enabled=False,
+    mcp_strategy="fast",
+    mcp_configs=None,
+):
+    """Run the agent."""
+>>>>>>> newdev
     # Create logs handler for this research task
     if mcp_configs is None:
         mcp_configs = []
@@ -263,12 +260,12 @@ async def run_agent(task, report_type, report_source, source_urls, document_urls
         os.environ["MCP_STRATEGY"] = mcp_strategy
 
 <<<<<<< HEAD
+        print(f"🔧 MCP enabled with strategy '{mcp_strategy}' and {len(mcp_configs)} server(s)")
+=======
         print(
             f"🔧 MCP enabled with strategy '{mcp_strategy}' and {len(mcp_configs)} server(s)"
         )
-=======
-        print(f"🔧 MCP enabled with strategy '{mcp_strategy}' and {len(mcp_configs)} server(s)")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
         await logs_handler.send_json({
             "type": "logs",
             "content": "mcp_init",
@@ -283,10 +280,10 @@ async def run_agent(task, report_type, report_source, source_urls, document_urls
             stream_output=stream_output,
             tone=tone,
 <<<<<<< HEAD
-            headers=headers,
-=======
             headers=headers
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+            headers=headers,
+>>>>>>> newdev
         )
         report = report.get("report", "")
 

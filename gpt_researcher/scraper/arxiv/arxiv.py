@@ -9,15 +9,15 @@ class ArxivScraper:
     def scrape(self):
         """
 <<<<<<< HEAD
-        The function scrapes relevant documents from Arxiv based on a given link and returns the content
-        of the first document.
-
-=======
         Scrape an arXiv entry from self.link and return assembled context, images list, and the document title.
         
         Uses the last path segment of self.link as the arXiv query, retrieves up to two documents via ArxivRetriever, and builds a context string containing the published date, authors, and the first document's page content.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        The function scrapes relevant documents from Arxiv based on a given link and returns the content
+        of the first document.
+
+>>>>>>> newdev
         Returns:
             tuple:
                 context (str): "Published: {Published}; Author: {Authors}; Content: {page_content}" built from the first retrieved document.

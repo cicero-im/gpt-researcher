@@ -1,9 +1,9 @@
 import json
 <<<<<<< HEAD
+=======
 import logging
 
-=======
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 from datetime import datetime
 from pathlib import Path
 
@@ -65,12 +65,12 @@ def setup_research_logging():
     file_handler = logging.FileHandler(log_file)
     file_handler.setLevel(logging.INFO)
 <<<<<<< HEAD
+    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
+=======
     file_handler.setFormatter(
         logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s")
     )
-=======
-    file_handler.setFormatter(logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s'))
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
     # Get research logger and configure it
     research_logger = logging.getLogger("research")
@@ -100,9 +100,6 @@ def setup_research_logging():
 
 def get_research_logger():
 <<<<<<< HEAD
-    return logging.getLogger("research")
-
-=======
     """
     Return the logger named 'research'.
     
@@ -114,7 +111,10 @@ def get_research_logger():
         logging.Logger: The logger instance for research-related logging.
     """
     return logging.getLogger('research')
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    return logging.getLogger("research")
+
+>>>>>>> newdev
 
 def get_json_handler():
     return getattr(logging.getLogger("research"), "json_handler", None)

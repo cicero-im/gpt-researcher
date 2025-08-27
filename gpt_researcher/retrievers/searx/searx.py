@@ -6,9 +6,11 @@ from urllib.parse import urljoin
 import requests
 
 <<<<<<< HEAD
-
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+from ..utils import build_domain_query
+
+
+>>>>>>> newdev
 class SearxSearch:
     """
     SearxNG API Retriever
@@ -21,7 +23,7 @@ class SearxSearch:
             query: Search query string
         """
         self.query = query
-        self.query_domains = query_domains or None
+        self.query_domains = query_domains or []
         self.base_url = self.get_searxng_url()
 
     def get_searxng_url(self) -> str:
@@ -59,14 +61,14 @@ class SearxSearch:
             Exception: If the HTTP request fails (network/HTTP error) or if the response cannot be decoded as JSON.
         """
         search_url = urljoin(self.base_url, "search")
-        # TODO: Add support for query domains
+        query = build_domain_query(self.query, self.query_domains)
         params = {
             # The search query.
 <<<<<<< HEAD
-            "q": query,
-=======
             'q': self.query,
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+            "q": query,
+>>>>>>> newdev
             # Output format of results. Format needs to be activated in searxng config.
             "format": "json",
         }
@@ -83,11 +85,13 @@ class SearxSearch:
             for idx, result in enumerate(
                 results.get("results", [])[:max_results], start=1
             ):
-                search_response.append({
-                    "id": idx,
-                    "href": result.get("url", ""),
-                    "body": result.get("content", ""),
-                })
+                search_response.append(
+                    {
+                        "id": idx,
+                        "href": result.get("url", ""),
+                        "body": result.get("content", ""),
+                    }
+                )
 
             return search_response
 

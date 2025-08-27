@@ -40,13 +40,6 @@ class MCPResearchSkill:
     ) -> list[dict[str, str]]:
         """
 <<<<<<< HEAD
-        Use LLM with bound tools to conduct intelligent research.
-
-        Args:
-            query: Research query
-            selected_tools: List of selected MCP tools
-
-=======
         Conduct research for a query by invoking an LLM bound to the provided MCP tools and normalize tool outputs into standard search-result dictionaries.
         
         This asynchronous method:
@@ -58,7 +51,14 @@ class MCPResearchSkill:
             query: The research query string to send to the LLM.
             selected_tools: Iterable of tool objects the LLM may call. Each tool is expected to expose a name attribute and be callable via `ainvoke`, `invoke`, or as a (possibly async) callable.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Use LLM with bound tools to conduct intelligent research.
+
+        Args:
+            query: Research query
+            selected_tools: List of selected MCP tools
+
+>>>>>>> newdev
         Returns:
             A list of dictionaries representing research results. Each dict contains at least the keys:
               - "title": short title for the item
@@ -87,11 +87,11 @@ class MCPResearchSkill:
 
             llm_provider = GenericLLMProvider.from_provider(
 <<<<<<< HEAD
-                self.cfg.strategic_llm_provider, **provider_kwargs
-=======
                 self.cfg.strategic_llm_provider,
                 **provider_kwargs
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+                self.cfg.strategic_llm_provider, **provider_kwargs
+>>>>>>> newdev
             )
 
             # Bind tools to LLM
@@ -125,12 +125,12 @@ class MCPResearchSkill:
                     tool_args = tool_call.get("args", {})
 
 <<<<<<< HEAD
+                    logger.info(f"Executing tool {i}/{len(response.tool_calls)}: {tool_name}")
+=======
                     logger.info(
                         f"Executing tool {i}/{len(response.tool_calls)}: {tool_name}"
                     )
-=======
-                    logger.info(f"Executing tool {i}/{len(response.tool_calls)}: {tool_name}")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
                     # Log the tool arguments for transparency
                     if tool_args:
@@ -155,6 +155,13 @@ class MCPResearchSkill:
                             result = tool.invoke(tool_args)
                         else:
 <<<<<<< HEAD
+                            result = await tool(tool_args) if asyncio.iscoroutinefunction(tool) else tool(tool_args)
+
+                        # Log the actual tool response for debugging
+                        if result:
+                            result_preview = str(result)[:500] + "..." if len(str(result)) > 500 else str(result)
+                            logger.debug(f"Tool {tool_name} response preview: {result_preview}")
+=======
                             result = (
                                 await tool(tool_args)
                                 if asyncio.iscoroutinefunction(tool)
@@ -171,14 +178,7 @@ class MCPResearchSkill:
                             logger.debug(
                                 f"Tool {tool_name} response preview: {result_preview}"
                             )
-=======
-                            result = await tool(tool_args) if asyncio.iscoroutinefunction(tool) else tool(tool_args)
-
-                        # Log the actual tool response for debugging
-                        if result:
-                            result_preview = str(result)[:500] + "..." if len(str(result)) > 500 else str(result)
-                            logger.debug(f"Tool {tool_name} response preview: {result_preview}")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
                             # Process the result
                             formatted_results = self._process_tool_result(
@@ -186,12 +186,12 @@ class MCPResearchSkill:
                             )
                             research_results.extend(formatted_results)
 <<<<<<< HEAD
+                            logger.info(f"Tool {tool_name} returned {len(formatted_results)} formatted results")
+=======
                             logger.info(
                                 f"Tool {tool_name} returned {len(formatted_results)} formatted results"
                             )
-=======
-                            logger.info(f"Tool {tool_name} returned {len(formatted_results)} formatted results")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
                             # Log details of each formatted result
                             for j, formatted_result in enumerate(formatted_results):
@@ -230,12 +230,12 @@ class MCPResearchSkill:
                 logger.info("Added LLM analysis to results")
 
 <<<<<<< HEAD
+            logger.info(f"Research completed with {len(research_results)} total results")
+=======
             logger.info(
                 f"Research completed with {len(research_results)} total results"
             )
-=======
-            logger.info(f"Research completed with {len(research_results)} total results")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
             return research_results
 
         except Exception as e:
@@ -245,15 +245,6 @@ class MCPResearchSkill:
     def _process_tool_result(self, tool_name: str, result: Any) -> list[dict[str, str]]:
         """
 <<<<<<< HEAD
-        Process tool result into search result format.
-
-        Args:
-            tool_name: Name of the tool that produced the result
-            result: The tool result
-
-        Returns:
-            List[Dict[str, str]]: Formatted search results
-=======
         Convert a raw tool output into a standardized list of search-result dictionaries.
         
         This normalizes tool outputs to a list of dicts with keys: `title` (string), `href` (string), and `body` (string).
@@ -265,7 +256,16 @@ class MCPResearchSkill:
         - For any other type: a single generic result is created with the value stringified into `body` and `href` set to `mcp://{tool_name}`.
         
         On error while processing, a basic fallback result (title `"Result from {tool_name}"`, `href` `mcp://{tool_name}`, and the stringified input as `body`) is returned in the list.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Process tool result into search result format.
+
+        Args:
+            tool_name: Name of the tool that produced the result
+            result: The tool result
+
+        Returns:
+            List[Dict[str, str]]: Formatted search results
+>>>>>>> newdev
         """
         search_results = []
 
@@ -325,4 +325,4 @@ class MCPResearchSkill:
         return search_results
 =======
         return search_results
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

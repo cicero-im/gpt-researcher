@@ -33,16 +33,16 @@ class BatchResearchManager:
     def __init__(self, researcher, max_concurrent: int = 3):
         """
 <<<<<<< HEAD
+        Create a BatchResearchManager tied to a researcher and configure concurrency.
+        
+        Initializes internal storage for iteration results, collected contexts and URLs, sets the concurrency limit and associated asyncio.Semaphore, and prepares a placeholder for an optional progress callback. The `max_concurrent` value controls the maximum number of research iterations that may run concurrently.
+=======
         Initialize the batch research manager.
 
         Args:
             researcher: The GPTResearcher instance
             max_concurrent: Maximum number of concurrent research iterations
-=======
-        Create a BatchResearchManager tied to a researcher and configure concurrency.
-        
-        Initializes internal storage for iteration results, collected contexts and URLs, sets the concurrency limit and associated asyncio.Semaphore, and prepares a placeholder for an optional progress callback. The `max_concurrent` value controls the maximum number of research iterations that may run concurrently.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         """
         self.researcher = researcher
         self.research_results: list[ResearchIteration] = []
@@ -51,31 +51,23 @@ class BatchResearchManager:
         self.max_concurrent = max_concurrent
         self.semaphore = asyncio.Semaphore(max_concurrent)
 <<<<<<< HEAD
-        self.progress_callback: Callable | None = None
-
-    async def conduct_batch_research(
-        self,
-        research_instructions: list[str],
-=======
         self.progress_callback: Optional[Callable] = None
 
     async def conduct_batch_research(
         self,
         research_instructions: List[str],
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        self.progress_callback: Callable | None = None
+
+    async def conduct_batch_research(
+        self,
+        research_instructions: list[str],
+>>>>>>> newdev
         parallel: bool = False,
         on_progress: Callable | None = None,
     ) -> dict[str, Any]:
         """
 <<<<<<< HEAD
-        Conduct multiple research iterations with enhanced features.
-
-        Args:
-            research_instructions: List of research queries/instructions
-            parallel: Whether to run iterations in parallel (respecting max_concurrent)
-            on_progress: Optional callback for progress updates
-
-=======
         Run a batch of research iterations and return aggregated results and metadata.
         
         If no instructions are provided, performs a single research run and returns its results.
@@ -88,7 +80,15 @@ class BatchResearchManager:
             parallel (bool): If True, execute iterations concurrently (respecting max_concurrent); otherwise run sequentially.
             on_progress (Optional[Callable]): Optional callback invoked for per-iteration progress (stored as self.progress_callback).
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Conduct multiple research iterations with enhanced features.
+
+        Args:
+            research_instructions: List of research queries/instructions
+            parallel: Whether to run iterations in parallel (respecting max_concurrent)
+            on_progress: Optional callback for progress updates
+
+>>>>>>> newdev
         Returns:
             Dict[str, Any]: A formatted results dictionary containing per-iteration details and aggregated metadata (contexts, urls, combined_context, timing statistics, counts of successes/failures, and timestamp).
         """
@@ -140,15 +140,7 @@ class BatchResearchManager:
         return self._format_results(results, len(research_instructions))
 
 <<<<<<< HEAD
-    async def _conduct_sequential_research(
-        self, instructions: list[str]
-    ) -> list[ResearchIteration]:
-=======
     async def _conduct_sequential_research(self, instructions: List[str]) -> List[ResearchIteration]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Conduct research iterations sequentially."""
-=======
         """
         Run each research instruction one after another and return their results.
         
@@ -156,7 +148,12 @@ class BatchResearchManager:
         
         Exceptions raised by the underlying _execute_single_research are propagated.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _conduct_sequential_research(
+        self, instructions: list[str]
+    ) -> list[ResearchIteration]:
+        """Conduct research iterations sequentially."""
+>>>>>>> newdev
         results = []
 
         for i, instruction in enumerate(instructions, 1):
@@ -171,15 +168,7 @@ class BatchResearchManager:
         return results
 
 <<<<<<< HEAD
-    async def _conduct_parallel_research(
-        self, instructions: list[str]
-    ) -> list[ResearchIteration]:
-=======
     async def _conduct_parallel_research(self, instructions: List[str]) -> List[ResearchIteration]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Conduct research iterations in parallel with concurrency control."""
-=======
         """
         Run multiple research instructions concurrently, respecting the manager's concurrency limit.
         
@@ -188,7 +177,12 @@ class BatchResearchManager:
         Returns:
             List[ResearchIteration]: Per-instruction results (successful iterations or failure records for exceptions), ordered to match `instructions`.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _conduct_parallel_research(
+        self, instructions: list[str]
+    ) -> list[ResearchIteration]:
+        """Conduct research iterations in parallel with concurrency control."""
+>>>>>>> newdev
         tasks = []
 
         for i, instruction in enumerate(instructions, 1):
@@ -219,15 +213,7 @@ class BatchResearchManager:
         return processed_results
 
 <<<<<<< HEAD
-    async def _execute_with_semaphore(
-        self, instruction: str, iteration: int, total: int
-    ) -> ResearchIteration:
-=======
     async def _execute_with_semaphore(self, instruction: str, iteration: int, total: int) -> ResearchIteration:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Execute research with semaphore for concurrency control."""
-=======
         """
         Acquire the concurrency semaphore and run a single research iteration.
         
@@ -241,20 +227,10 @@ class BatchResearchManager:
         Returns:
             ResearchIteration: The result object for this iteration.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
         async with self.semaphore:
             return await self._execute_single_research(instruction, iteration, total)
 
-<<<<<<< HEAD
-    async def _execute_single_research(
-        self, instruction: str, iteration: int, total: int
-    ) -> ResearchIteration:
-=======
     async def _execute_single_research(self, instruction: str, iteration: int, total: int) -> ResearchIteration:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Execute a single research iteration with comprehensive error handling."""
-=======
         """
         Run a single research iteration: set the researcher's query, run the research with a timeout, collect results, and restore the original state.
         
@@ -268,7 +244,19 @@ class BatchResearchManager:
         Returns:
             ResearchIteration: Result object summarizing the iteration. On failure `success` is False and `error` contains the failure reason.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _execute_with_semaphore(
+        self, instruction: str, iteration: int, total: int
+    ) -> ResearchIteration:
+        """Execute research with semaphore for concurrency control."""
+        async with self.semaphore:
+            return await self._execute_single_research(instruction, iteration, total)
+
+    async def _execute_single_research(
+        self, instruction: str, iteration: int, total: int
+    ) -> ResearchIteration:
+        """Execute a single research iteration with comprehensive error handling."""
+>>>>>>> newdev
         start_time = datetime.now()
 
         if self.researcher.verbose:
@@ -318,10 +306,10 @@ class BatchResearchManager:
             return result
 
 <<<<<<< HEAD
-        except TimeoutError:
-=======
         except asyncio.TimeoutError:
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        except TimeoutError:
+>>>>>>> newdev
             error_msg = f"Timeout after {timeout}s"
             logger.error(f"Research iteration {iteration} timed out: {error_msg}")
 
@@ -362,18 +350,8 @@ class BatchResearchManager:
             self.researcher.query = original_query
 
 <<<<<<< HEAD
-    def _combine_contexts_intelligently(self, results: list[ResearchIteration]) -> str:
-=======
     def _combine_contexts_intelligently(self, results: List[ResearchIteration]) -> str:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Combine contexts with intelligent deduplication and organization.
-
-        Args:
-            results: List of research iteration results
-
-=======
         Combine successful iteration contexts into a single deduplicated context string.
         
         This function collects the `context` values from successful ResearchIteration entries and merges them into a single string. Behavior:
@@ -381,7 +359,15 @@ class BatchResearchManager:
         - If all successful contexts are strings, each context is split into paragraphs on double-newlines ('\n\n'); paragraphs are stripped, de-duplicated while preserving first-seen order, and joined with a blank-line separator.
         - If contexts are heterogeneous (lists or other types), they are flattened by converting items to strings, stripping, de-duplicating by string value while preserving order, and joined with a blank-line separator.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _combine_contexts_intelligently(self, results: list[ResearchIteration]) -> str:
+        """
+        Combine contexts with intelligent deduplication and organization.
+
+        Args:
+            results: List of research iteration results
+
+>>>>>>> newdev
         Returns:
             A combined, deduplicated context string (possibly empty).
         """
@@ -430,15 +416,7 @@ class BatchResearchManager:
         return "\n\n".join(combined)
 
 <<<<<<< HEAD
-    def _format_results(
-        self, results: list[ResearchIteration], total_planned: int
-    ) -> dict[str, Any]:
-=======
     def _format_results(self, results: List[ResearchIteration], total_planned: int) -> Dict[str, Any]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Format results with comprehensive metadata."""
-=======
         """
         Build a structured summary of research iterations and aggregate metadata.
         
@@ -465,7 +443,12 @@ class BatchResearchManager:
                     total_unique_urls, failed_instructions (list of instruction strings),
                     and timestamp (ISO string when this summary was produced).
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _format_results(
+        self, results: list[ResearchIteration], total_planned: int
+    ) -> dict[str, Any]:
+        """Format results with comprehensive metadata."""
+>>>>>>> newdev
         successful_results = [r for r in results if r.success]
         failed_results = [r for r in results if not r.success]
 
@@ -519,12 +502,8 @@ class BatchResearchManager:
             handled internally and will not propagate.
         """
         try:
-<<<<<<< HEAD
             from ..actions.utils import stream_output
 
-=======
-            from gpt_researcher.actions.utils import stream_output
->>>>>>> 1f1be9a8 (updating)
             await stream_output(
                 "logs",
                 event_type,
@@ -536,10 +515,10 @@ class BatchResearchManager:
             logger.info(f"{event_type}: {message}")
 
 <<<<<<< HEAD
-    def get_iteration_result(self, iteration: int) -> ResearchIteration | None:
-=======
     def get_iteration_result(self, iteration: int) -> Optional[ResearchIteration]:
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    def get_iteration_result(self, iteration: int) -> ResearchIteration | None:
+>>>>>>> newdev
         """Get results from a specific iteration."""
         for result in self.research_results:
             if result.iteration == iteration:
@@ -547,16 +526,6 @@ class BatchResearchManager:
         return None
 
 <<<<<<< HEAD
-    def get_successful_results(self) -> list[ResearchIteration]:
-        """Get only successful research iterations."""
-        return [r for r in self.research_results if r.success]
-
-    def get_failed_results(self) -> list[ResearchIteration]:
-        """Get only failed research iterations."""
-        return [r for r in self.research_results if not r.success]
-
-    def get_statistics(self) -> dict[str, Any]:
-=======
     def get_successful_results(self) -> List[ResearchIteration]:
         """Get only successful research iterations."""
         return [r for r in self.research_results if r.success]
@@ -571,10 +540,6 @@ class BatchResearchManager:
         return [r for r in self.research_results if not r.success]
 
     def get_statistics(self) -> Dict[str, Any]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Get comprehensive statistics about the batch research."""
-=======
         """
         Return aggregated statistics about the conducted batch research.
         
@@ -594,7 +559,18 @@ class BatchResearchManager:
                 - total_duration (float): Sum of durations (seconds) of all iterations.
                 - average_duration (float): Mean duration (seconds) per iteration.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def get_successful_results(self) -> list[ResearchIteration]:
+        """Get only successful research iterations."""
+        return [r for r in self.research_results if r.success]
+
+    def get_failed_results(self) -> list[ResearchIteration]:
+        """Get only failed research iterations."""
+        return [r for r in self.research_results if not r.success]
+
+    def get_statistics(self) -> dict[str, Any]:
+        """Get comprehensive statistics about the batch research."""
+>>>>>>> newdev
         if not self.research_results:
             return {}
 

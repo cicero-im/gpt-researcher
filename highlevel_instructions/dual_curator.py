@@ -2,14 +2,14 @@
 Enhanced dual curation system with multi-stage quality assessment and intelligent filtering
 """
 <<<<<<< HEAD
+import logging
+from typing import List, Any, Dict, Optional
+=======
 
 import hashlib
 import logging
 
-=======
-import logging
-from typing import List, Any, Dict, Optional
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 from dataclasses import dataclass, field
 from datetime import datetime
 from enum import Enum
@@ -51,24 +51,22 @@ class DualCuratorManager:
     """Enhanced dual curation manager with comprehensive source assessment."""
 
 <<<<<<< HEAD
+    def __init__(self, researcher, strategy: CurationStrategy = CurationStrategy.BALANCED):
+        """
+        Initialize the DualCuratorManager and prepare internal curation state.
+        
+        Creates the manager bound to a researcher and curation strategy, captures the researcher's primary curator, initializes the optional secondary curator slot, and prepares internal structures used across the multi-stage curation flow (history, per-source metadata, and strategy-specific quality thresholds).
+=======
     def __init__(
         self, researcher, strategy: CurationStrategy = CurationStrategy.BALANCED
     ):
-=======
-    def __init__(self, researcher, strategy: CurationStrategy = CurationStrategy.BALANCED):
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
         Initialize the dual curator manager.
 
         Args:
             researcher: The GPTResearcher instance
             strategy: Curation strategy to use
-=======
-        Initialize the DualCuratorManager and prepare internal curation state.
-        
-        Creates the manager bound to a researcher and curation strategy, captures the researcher's primary curator, initializes the optional secondary curator slot, and prepares internal structures used across the multi-stage curation flow (history, per-source metadata, and strategy-specific quality thresholds).
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         """
         self.researcher = researcher
         self.primary_curator = researcher.source_curator  # Existing curator
@@ -79,13 +77,7 @@ class DualCuratorManager:
         self.quality_thresholds = self._initialize_thresholds()
 
 <<<<<<< HEAD
-    def _initialize_thresholds(self) -> dict[str, float]:
-=======
     def _initialize_thresholds(self) -> Dict[str, float]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Initialize quality thresholds based on strategy."""
-=======
         """
         Return per-criterion quality thresholds tuned to the current curation strategy.
         
@@ -104,7 +96,10 @@ class DualCuratorManager:
         Returns:
           Dict[str, float]: per-criterion threshold values in the range [0.0, 1.0].
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _initialize_thresholds(self) -> dict[str, float]:
+        """Initialize quality thresholds based on strategy."""
+>>>>>>> newdev
         if self.strategy == CurationStrategy.STRICT:
             return {
                 "relevance": 0.7,
@@ -133,25 +128,16 @@ class DualCuratorManager:
     async def curate_sources(
         self,
 <<<<<<< HEAD
-        research_data: list[Any],
-=======
         research_data: List[Any],
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        research_data: list[Any],
+>>>>>>> newdev
         min_sources: int = 3,
         max_sources: int | None = None,
         custom_criteria: dict | None = None,
     ) -> list[Any]:
         """
 <<<<<<< HEAD
-        Apply enhanced dual curation with comprehensive quality assessment.
-
-        Args:
-            research_data: Raw research data
-            min_sources: Minimum number of sources to retain
-            max_sources: Maximum number of sources to retain
-            custom_criteria: Custom curation criteria
-
-=======
         Perform a multi-stage, enhanced dual curation of input research sources and return the curated subset.
         
         This coroutine orchestrates four curation stages: primary (relevance filtering), secondary (quality/credibility assessment or external secondary curator), diversity optimization, and final selection according to the manager's strategy. Returns an empty list for empty input. If dual curation is disabled in the researcher configuration or an unexpected error occurs during processing, the method falls back to the single-curation path.
@@ -164,7 +150,16 @@ class DualCuratorManager:
                 - "exclude_domains": iterable of domain strings to remove.
                 - "require_keywords": iterable of keywords; retained sources must contain at least one.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Apply enhanced dual curation with comprehensive quality assessment.
+
+        Args:
+            research_data: Raw research data
+            min_sources: Minimum number of sources to retain
+            max_sources: Maximum number of sources to retain
+            custom_criteria: Custom curation criteria
+
+>>>>>>> newdev
         Returns:
             List[Any]: The final curated list of source items (may be shorter than min_sources if constraints and thresholds prevent expansion).
         """
@@ -192,13 +187,13 @@ class DualCuratorManager:
             # Stage 4: Final selection based on strategy
             final_results = await self._final_selection_stage(
 <<<<<<< HEAD
-                stage3_results, min_sources, max_sources, custom_criteria
-=======
                 stage3_results,
                 min_sources,
                 max_sources,
                 custom_criteria
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+                stage3_results, min_sources, max_sources, custom_criteria
+>>>>>>> newdev
             )
 
             # Log curation statistics
@@ -212,42 +207,27 @@ class DualCuratorManager:
             return await self._single_curation(research_data)
 
 <<<<<<< HEAD
-    async def _single_curation(self, research_data: list[Any]) -> list[Any]:
-=======
     async def _single_curation(self, research_data: List[Any]) -> List[Any]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Fallback single curation when dual curation is disabled or fails."""
-=======
         """
         Attempt a single-curator run using the primary curator; on any error, return the first up-to-10 items from the input as a last-resort fallback.
         
         Returns:
             List[Any]: Curated list produced by the primary curator, or the first min(10, len(research_data)) input items if the primary curator call raises an exception.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _single_curation(self, research_data: list[Any]) -> list[Any]:
+        """Fallback single curation when dual curation is disabled or fails."""
+>>>>>>> newdev
         try:
             return await self.primary_curator.curate_sources(research_data)
         except Exception as e:
             print(f"Primary curator failed: {e}")
             # Ultimate fallback - return top N sources
 <<<<<<< HEAD
-            return research_data[: min(10, len(research_data))]
-
-    async def _primary_curation_stage(self, sources: list[Any]) -> list[Any]:
-=======
             return research_data[:min(10, len(research_data))]
 
     async def _primary_curation_stage(self, sources: List[Any]) -> List[Any]:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Primary curation stage focusing on relevance.
-
-        Args:
-            sources: Input sources
-
-=======
         Run the primary relevance-focused curation pass and return sources that pass it.
         
         Uses the manager's primary_curator to filter the input sources for relevance. For each returned source, updates the manager's SourceMetadata (if present) by setting a baseline relevance_score (0.7) and curation_stage to "primary_passed". When the researcher is verbose, progress events are streamed.
@@ -255,7 +235,17 @@ class DualCuratorManager:
         Parameters:
             sources: Iterable of source items to be evaluated.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+            return research_data[: min(10, len(research_data))]
+
+    async def _primary_curation_stage(self, sources: list[Any]) -> list[Any]:
+        """
+        Primary curation stage focusing on relevance.
+
+        Args:
+            sources: Input sources
+
+>>>>>>> newdev
         Returns:
             List of sources that passed the primary curation stage.
         """
@@ -287,18 +277,8 @@ class DualCuratorManager:
         return curated
 
 <<<<<<< HEAD
-    async def _secondary_curation_stage(self, sources: list[Any]) -> list[Any]:
-=======
     async def _secondary_curation_stage(self, sources: List[Any]) -> List[Any]:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Secondary curation stage focusing on quality and credibility.
-
-        Args:
-            sources: Sources from primary curation
-
-=======
         Run the secondary curation stage to assess quality and credibility of sources and return the subset that passes.
         
         This will use an externally configured secondary curator if present (via set_secondary_curator) or fall back to the manager's built-in quality assessment. For each source that passes, the function updates that source's SourceMetadata.curation_stage to "secondary_passed". If an empty list is provided, returns an empty list immediately.
@@ -306,7 +286,15 @@ class DualCuratorManager:
         Parameters:
             sources (List[Any]): Source items produced by the primary curation stage.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _secondary_curation_stage(self, sources: list[Any]) -> list[Any]:
+        """
+        Secondary curation stage focusing on quality and credibility.
+
+        Args:
+            sources: Sources from primary curation
+
+>>>>>>> newdev
         Returns:
             List[Any]: The sources that passed secondary curation.
         """
@@ -341,13 +329,7 @@ class DualCuratorManager:
         return curated
 
 <<<<<<< HEAD
-    async def _apply_secondary_curator(self, sources: list[Any]) -> list[Any]:
-=======
     async def _apply_secondary_curator(self, sources: List[Any]) -> List[Any]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Apply external secondary curator if configured."""
-=======
         """
         Apply an external secondary curator to the given sources, falling back to the built-in quality assessment on non-callable configuraton or errors.
         
@@ -356,7 +338,10 @@ class DualCuratorManager:
         Returns:
             List[Any]: The subset of sources accepted by the secondary step (or by the fallback quality assessment).
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _apply_secondary_curator(self, sources: list[Any]) -> list[Any]:
+        """Apply external secondary curator if configured."""
+>>>>>>> newdev
         try:
             if hasattr(self.secondary_curator, "curate_sources"):
                 return await self.secondary_curator.curate_sources(sources)
@@ -372,18 +357,8 @@ class DualCuratorManager:
             return await self._apply_quality_assessment(sources)
 
 <<<<<<< HEAD
-    async def _apply_quality_assessment(self, sources: list[Any]) -> list[Any]:
-=======
     async def _apply_quality_assessment(self, sources: List[Any]) -> List[Any]:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Built-in quality assessment for sources.
-
-        Args:
-            sources: Sources to assess
-
-=======
         Perform the built-in quality assessment on a list of sources and return those that pass the combined-score threshold.
         
         For each source this:
@@ -395,7 +370,15 @@ class DualCuratorManager:
         Parameters:
             sources: Iterable of source items to assess.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _apply_quality_assessment(self, sources: list[Any]) -> list[Any]:
+        """
+        Built-in quality assessment for sources.
+
+        Args:
+            sources: Sources to assess
+
+>>>>>>> newdev
         Returns:
             List of sources that passed the quality assessment (those retained after threshold filtering).
         """
@@ -408,14 +391,14 @@ class DualCuratorManager:
             if source_id in self.source_metadata:
                 metadata = self.source_metadata[source_id]
 <<<<<<< HEAD
-                metadata.quality_score = scores["quality"]
-                metadata.credibility_score = scores["credibility"]
-                metadata.freshness_score = scores["freshness"]
-=======
                 metadata.quality_score = scores['quality']
                 metadata.credibility_score = scores['credibility']
                 metadata.freshness_score = scores['freshness']
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+                metadata.quality_score = scores["quality"]
+                metadata.credibility_score = scores["credibility"]
+                metadata.freshness_score = scores["freshness"]
+>>>>>>> newdev
 
                 # Calculate combined score based on strategy
                 metadata.combined_score = self._calculate_combined_score(metadata)
@@ -425,23 +408,11 @@ class DualCuratorManager:
                     assessed_sources.append(source)
                 else:
 <<<<<<< HEAD
-                    metadata.rejection_reason = (
-                        f"Combined score {metadata.combined_score:.2f} below threshold"
-                    )
-
-        return assessed_sources
-
-    async def _calculate_quality_scores(self, source: Any) -> dict[str, float]:
-=======
                     metadata.rejection_reason = f"Combined score {metadata.combined_score:.2f} below threshold"
 
         return assessed_sources
 
     async def _calculate_quality_scores(self, source: Any) -> Dict[str, float]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Calculate quality scores for a source."""
-=======
         """
         Compute heuristic quality, credibility, and freshness scores for a source.
         
@@ -459,7 +430,16 @@ class DualCuratorManager:
         Returns:
             Dict[str, float]: A mapping with keys 'quality', 'credibility', and 'freshness', each mapped to a float score between 0.0 and 1.0.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+                    metadata.rejection_reason = (
+                        f"Combined score {metadata.combined_score:.2f} below threshold"
+                    )
+
+        return assessed_sources
+
+    async def _calculate_quality_scores(self, source: Any) -> dict[str, float]:
+        """Calculate quality scores for a source."""
+>>>>>>> newdev
         scores = {
             "quality": 0.5,  # Default scores
             "credibility": 0.5,
@@ -483,14 +463,14 @@ class DualCuratorManager:
                 "organization",
             ]
 <<<<<<< HEAD
+            quality_count = sum(1 for ind in quality_indicators if ind in source_text.lower())
+            scores['quality'] = min(1.0, 0.3 + (quality_count * 0.1))
+=======
             quality_count = sum(
                 1 for ind in quality_indicators if ind in source_text.lower()
             )
             scores["quality"] = min(1.0, 0.3 + (quality_count * 0.1))
-=======
-            quality_count = sum(1 for ind in quality_indicators if ind in source_text.lower())
-            scores['quality'] = min(1.0, 0.3 + (quality_count * 0.1))
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             # Credibility indicators
             credibility_indicators = [
@@ -504,14 +484,14 @@ class DualCuratorManager:
                 "authoritative",
             ]
 <<<<<<< HEAD
+            cred_count = sum(1 for ind in credibility_indicators if ind in source_text.lower())
+            scores['credibility'] = min(1.0, 0.4 + (cred_count * 0.15))
+=======
             cred_count = sum(
                 1 for ind in credibility_indicators if ind in source_text.lower()
             )
             scores["credibility"] = min(1.0, 0.4 + (cred_count * 0.15))
-=======
-            cred_count = sum(1 for ind in credibility_indicators if ind in source_text.lower())
-            scores['credibility'] = min(1.0, 0.4 + (cred_count * 0.15))
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             # Freshness (simplified - would need actual date parsing)
             current_year = datetime.now().year
@@ -521,10 +501,10 @@ class DualCuratorManager:
                 scores["freshness"] = 0.7
             else:
 <<<<<<< HEAD
-                scores["freshness"] = 0.5
-=======
                 scores['freshness'] = 0.5
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+                scores["freshness"] = 0.5
+>>>>>>> newdev
 
         except Exception as e:
             logger.debug(f"Error calculating quality scores: {e}")
@@ -532,20 +512,8 @@ class DualCuratorManager:
         return scores
 
 <<<<<<< HEAD
-    async def _diversity_optimization_stage(self, sources: list[Any]) -> list[Any]:
-=======
     async def _diversity_optimization_stage(self, sources: List[Any]) -> List[Any]:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Optimize source diversity to avoid echo chambers.
-
-        Args:
-            sources: Sources from secondary curation
-
-        Returns:
-            Diversity-optimized source list
-=======
         Optimize and return a more diverse subset of sources to reduce dominance by a single domain or viewpoint.
         
         If there are three or fewer input sources, the list is returned unchanged. Otherwise sources are grouped by domain (via _group_sources_by_domain) and the function selects a small, deterministic number of top sources from each domain group (sources_per_group = max(1, len(sources) // number_of_groups)). The selected sources are returned in aggregated order.
@@ -553,7 +521,17 @@ class DualCuratorManager:
         Side effects:
         - Updates SourceMetadata.diversity_score for selected sources in self.source_metadata (score = 1.0 / number_of_groups).
         - Uses helper methods _group_sources_by_domain and _get_source_id; selection is based on group order and original ordering within groups.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _diversity_optimization_stage(self, sources: list[Any]) -> list[Any]:
+        """
+        Optimize source diversity to avoid echo chambers.
+
+        Args:
+            sources: Sources from secondary curation
+
+        Returns:
+            Diversity-optimized source list
+>>>>>>> newdev
         """
         if len(sources) <= 3:
             return sources  # Too few sources to optimize
@@ -570,16 +548,16 @@ class DualCuratorManager:
         # Select diverse sources
         diverse_sources = []
 <<<<<<< HEAD
+        sources_per_group = max(1, len(sources) // len(source_groups)) if source_groups else 1
+
+        for group_name, group_sources in source_groups.items():
+=======
         sources_per_group = (
             max(1, len(sources) // len(source_groups)) if source_groups else 1
         )
 
         for _group_name, group_sources in source_groups.items():
-=======
-        sources_per_group = max(1, len(sources) // len(source_groups)) if source_groups else 1
-
-        for group_name, group_sources in source_groups.items():
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
             # Take top sources from each group
             selected = group_sources[:sources_per_group]
             diverse_sources.extend(selected)
@@ -590,23 +568,11 @@ class DualCuratorManager:
                 if source_id in self.source_metadata:
                     # Higher diversity score for sources from smaller groups
 <<<<<<< HEAD
-                    self.source_metadata[source_id].diversity_score = 1.0 / len(
-                        source_groups
-                    )
-
-        return diverse_sources
-
-    def _group_sources_by_domain(self, sources: list[Any]) -> dict[str, list[Any]]:
-=======
                     self.source_metadata[source_id].diversity_score = 1.0 / len(source_groups)
 
         return diverse_sources
 
     def _group_sources_by_domain(self, sources: List[Any]) -> Dict[str, List[Any]]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Group sources by domain or type."""
-=======
         """
         Group sources into coarse domain categories based on simple heuristics applied to each source's string representation.
         
@@ -618,7 +584,16 @@ class DualCuratorManager:
         Returns:
             Dict[str, List[Any]]: Mapping from domain name to the list of original source items assigned to that domain.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+                    self.source_metadata[source_id].diversity_score = 1.0 / len(
+                        source_groups
+                    )
+
+        return diverse_sources
+
+    def _group_sources_by_domain(self, sources: list[Any]) -> dict[str, list[Any]]:
+        """Group sources by domain or type."""
+>>>>>>> newdev
         groups = {}
 
         for source in sources:
@@ -627,10 +602,10 @@ class DualCuratorManager:
             source_str = str(source).lower()
 
 <<<<<<< HEAD
-            if any(term in source_str for term in [".edu", "university", "academic"]):
-=======
             if any(term in source_str for term in ['.edu', 'university', 'academic']):
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+            if any(term in source_str for term in [".edu", "university", "academic"]):
+>>>>>>> newdev
                 domain = "academic"
             elif any(term in source_str for term in [".gov", "government", "official"]):
                 domain = "government"
@@ -658,15 +633,6 @@ class DualCuratorManager:
     ) -> list[Any]:
         """
 <<<<<<< HEAD
-        Final selection stage based on strategy and constraints.
-
-        Args:
-            sources: Sources from diversity optimization
-            min_sources: Minimum sources required
-            max_sources: Maximum sources allowed
-            custom_criteria: Custom selection criteria
-
-=======
         Perform the final selection of curated sources according to the active strategy, size constraints, and any custom criteria.
         
         This stage:
@@ -682,7 +648,16 @@ class DualCuratorManager:
         - max_sources: Optional upper bound on the number of returned sources.
         - custom_criteria: Optional dict of user-specified filters passed to _apply_custom_criteria (supported keys include `exclude_domains` and `require_keywords`).
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Final selection stage based on strategy and constraints.
+
+        Args:
+            sources: Sources from diversity optimization
+            min_sources: Minimum sources required
+            max_sources: Maximum sources allowed
+            custom_criteria: Custom selection criteria
+
+>>>>>>> newdev
         Returns:
         - A list of selected sources (possibly empty). Exceptions are not documented here; errors in upstream stages are handled elsewhere.
         """
@@ -724,15 +699,7 @@ class DualCuratorManager:
         return selected
 
 <<<<<<< HEAD
-    async def _relax_thresholds_and_reselect(
-        self, sources: list[Any], min_sources: int
-    ):
-=======
     async def _relax_thresholds_and_reselect(self, sources: List[Any], min_sources: int):
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Relax quality thresholds if minimum sources not met."""
-=======
         """
         Relax the manager's quality thresholds to try to meet a minimum required number of sources.
         
@@ -745,7 +712,12 @@ class DualCuratorManager:
         Returns:
             None
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def _relax_thresholds_and_reselect(
+        self, sources: list[Any], min_sources: int
+    ):
+        """Relax quality thresholds if minimum sources not met."""
+>>>>>>> newdev
         logger.info("Relaxing thresholds to meet minimum source requirement")
 
         # Reduce all thresholds by 20%
@@ -756,20 +728,6 @@ class DualCuratorManager:
         # This would trigger a partial re-curation with new thresholds
 
 <<<<<<< HEAD
-    def _apply_custom_criteria(self, sources: list[Any], criteria: dict) -> list[Any]:
-        """Apply custom filtering criteria."""
-        filtered = sources
-
-        if "exclude_domains" in criteria:
-            excluded = criteria["exclude_domains"]
-            filtered = [s for s in filtered if not any(d in str(s) for d in excluded)]
-
-        if "require_keywords" in criteria:
-            keywords = criteria["require_keywords"]
-            filtered = [
-                s for s in filtered if any(k in str(s).lower() for k in keywords)
-            ]
-=======
     def _apply_custom_criteria(self, sources: List[Any], criteria: Dict) -> List[Any]:
         """
         Filter a list of sources using simple, user-provided criteria.
@@ -794,7 +752,21 @@ class DualCuratorManager:
         if 'require_keywords' in criteria:
             keywords = criteria['require_keywords']
             filtered = [s for s in filtered if any(k in str(s).lower() for k in keywords)]
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    def _apply_custom_criteria(self, sources: list[Any], criteria: dict) -> list[Any]:
+        """Apply custom filtering criteria."""
+        filtered = sources
+
+        if "exclude_domains" in criteria:
+            excluded = criteria["exclude_domains"]
+            filtered = [s for s in filtered if not any(d in str(s) for d in excluded)]
+
+        if "require_keywords" in criteria:
+            keywords = criteria["require_keywords"]
+            filtered = [
+                s for s in filtered if any(k in str(s).lower() for k in keywords)
+            ]
+>>>>>>> newdev
 
         return filtered
 
@@ -851,13 +823,7 @@ class DualCuratorManager:
         return min(1.0, score)
 
 <<<<<<< HEAD
-    def _initialize_source_metadata(self, sources: list[Any]):
-=======
     def _initialize_source_metadata(self, sources: List[Any]):
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Initialize metadata for all sources."""
-=======
         """
         Ensure SourceMetadata exists for each source in `sources`.
         
@@ -869,7 +835,10 @@ class DualCuratorManager:
         Side effects:
             Mutates self.source_metadata by adding SourceMetadata instances for previously unseen sources.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _initialize_source_metadata(self, sources: list[Any]):
+        """Initialize metadata for all sources."""
+>>>>>>> newdev
         for source in sources:
             source_id = self._get_source_id(source)
             if source_id not in self.source_metadata:
@@ -889,19 +858,16 @@ class DualCuratorManager:
         return hashlib.md5(source_str.encode()).hexdigest()[:16]
 
 <<<<<<< HEAD
-    def _extract_url(self, source: Any) -> str | None:
-=======
     def _extract_url(self, source: Any) -> Optional[str]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Extract URL from source if available."""
-=======
         """
         Return the first URL-like substring found in the given source's string representation.
         
         This performs a simple, heuristic extraction by converting `source` to a string, locating the first occurrence of the substring starting with "http", and returning characters from that position up to the next space (or end of string). Does not validate or normalize the URL and may return partial or malformed results; returns None if no "http" substring is present.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _extract_url(self, source: Any) -> str | None:
+        """Extract URL from source if available."""
+>>>>>>> newdev
         source_str = str(source)
         # Simplified URL extraction
         if "http" in source_str:
@@ -913,13 +879,7 @@ class DualCuratorManager:
         return None
 
 <<<<<<< HEAD
-    def _extract_title(self, source: Any) -> str | None:
-=======
     def _extract_title(self, source: Any) -> Optional[str]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Extract title from source if available."""
-=======
         """
         Attempt to extract a human-readable title from a source object.
         
@@ -931,18 +891,10 @@ class DualCuratorManager:
         Returns:
             Optional[str]: The extracted title if available, otherwise None.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
         # This would need proper implementation based on source structure
         return None
 
-<<<<<<< HEAD
-    def _log_curation_statistics(self, original: list[Any], final: list[Any]):
-=======
     def _log_curation_statistics(self, original: List[Any], final: List[Any]):
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Log curation statistics for analysis."""
-=======
         """
         Record metrics about a curation run and append them to the manager's history.
         
@@ -953,7 +905,15 @@ class DualCuratorManager:
             original (List[Any]): The list of sources before curation.
             final (List[Any]): The list of sources after curation (final selection).
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _extract_title(self, source: Any) -> str | None:
+        """Extract title from source if available."""
+        # This would need proper implementation based on source structure
+        return None
+
+    def _log_curation_statistics(self, original: list[Any], final: list[Any]):
+        """Log curation statistics for analysis."""
+>>>>>>> newdev
         stats = {
             "timestamp": datetime.now().isoformat(),
             "original_count": len(original),
@@ -967,21 +927,10 @@ class DualCuratorManager:
 
         if self.researcher.verbose:
 <<<<<<< HEAD
-            logger.info(
-                f"Curation complete: {stats['original_count']} → {stats['final_count']} sources "
-                f"({stats['reduction_rate']:.1%} reduction)"
-            )
-
-    def _calculate_stage_metrics(self) -> dict[str, int]:
-=======
             logger.info(f"Curation complete: {stats['original_count']} → {stats['final_count']} sources "
                        f"({stats['reduction_rate']:.1%} reduction)")
 
     def _calculate_stage_metrics(self) -> Dict[str, int]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Calculate metrics for each curation stage."""
-=======
         """
         Return counts of sources in each curation stage.
         
@@ -992,7 +941,15 @@ class DualCuratorManager:
         Returns:
             Dict[str, int]: Mapping from stage name to count for the four tracked stages.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+            logger.info(
+                f"Curation complete: {stats['original_count']} → {stats['final_count']} sources "
+                f"({stats['reduction_rate']:.1%} reduction)"
+            )
+
+    def _calculate_stage_metrics(self) -> dict[str, int]:
+        """Calculate metrics for each curation stage."""
+>>>>>>> newdev
         metrics = {
             "uncurated": 0,
             "primary_passed": 0,
@@ -1027,17 +984,13 @@ class DualCuratorManager:
             logger.info(message)
 
 <<<<<<< HEAD
-        if hasattr(self.researcher, "websocket") and self.researcher.websocket:
-=======
         if hasattr(self.researcher, 'websocket') and self.researcher.websocket:
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        if hasattr(self.researcher, "websocket") and self.researcher.websocket:
+>>>>>>> newdev
             try:
-<<<<<<< HEAD
                 from ..actions.utils import stream_output
 
-=======
-                from gpt_researcher.actions.utils import stream_output
->>>>>>> 1f1be9a8 (updating)
                 await stream_output(
                     "logs", event_type, message, self.researcher.websocket
                 )
@@ -1069,13 +1022,7 @@ class DualCuratorManager:
         self.quality_thresholds = self._initialize_thresholds()
 
 <<<<<<< HEAD
-    def get_curation_report(self) -> dict[str, Any]:
-=======
     def get_curation_report(self) -> Dict[str, Any]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Get comprehensive curation report."""
-=======
         """
         Return a comprehensive report of the current curation state.
         
@@ -1089,7 +1036,10 @@ class DualCuratorManager:
         Returns:
             Dict[str, Any]: The aggregated curation report described above.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def get_curation_report(self) -> dict[str, Any]:
+        """Get comprehensive curation report."""
+>>>>>>> newdev
         return {
             "total_sources_processed": len(self.source_metadata),
             "stage_metrics": self._calculate_stage_metrics(),
@@ -1099,13 +1049,7 @@ class DualCuratorManager:
         }
 
 <<<<<<< HEAD
-    def _calculate_average_scores(self) -> dict[str, float]:
-=======
     def _calculate_average_scores(self) -> Dict[str, float]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Calculate average scores across all sources."""
-=======
         """
         Compute average relevance, quality, credibility, freshness, and combined scores across all tracked sources.
         
@@ -1113,7 +1057,10 @@ class DualCuratorManager:
             A dict mapping score names to their average value (keys: 'relevance', 'quality', 'credibility', 'freshness', 'combined').
             Returns an empty dict if no source metadata is available.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _calculate_average_scores(self) -> dict[str, float]:
+        """Calculate average scores across all sources."""
+>>>>>>> newdev
         if not self.source_metadata:
             return {}
 
@@ -1128,16 +1075,6 @@ class DualCuratorManager:
         count = len(self.source_metadata)
         for metadata in self.source_metadata.values():
 <<<<<<< HEAD
-            totals["relevance"] += metadata.relevance_score
-            totals["quality"] += metadata.quality_score
-            totals["credibility"] += metadata.credibility_score
-            totals["freshness"] += metadata.freshness_score
-            totals["combined"] += metadata.combined_score
-
-        return {k: v / count for k, v in totals.items()}
-
-    def _get_rejection_summary(self) -> dict[str, int]:
-=======
             totals['relevance'] += metadata.relevance_score
             totals['quality'] += metadata.quality_score
             totals['credibility'] += metadata.credibility_score
@@ -1147,10 +1084,6 @@ class DualCuratorManager:
         return {k: v / count for k, v in totals.items()}
 
     def _get_rejection_summary(self) -> Dict[str, int]:
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-        """Get summary of rejection reasons."""
-=======
         """
         Return a mapping of rejection reason categories to their occurrence counts.
         
@@ -1162,7 +1095,18 @@ class DualCuratorManager:
             Dict[str, int]: Keys are rejection reason categories (substring before the first ':'),
             values are counts of sources with that category.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+            totals["relevance"] += metadata.relevance_score
+            totals["quality"] += metadata.quality_score
+            totals["credibility"] += metadata.credibility_score
+            totals["freshness"] += metadata.freshness_score
+            totals["combined"] += metadata.combined_score
+
+        return {k: v / count for k, v in totals.items()}
+
+    def _get_rejection_summary(self) -> dict[str, int]:
+        """Get summary of rejection reasons."""
+>>>>>>> newdev
         reasons = {}
         for metadata in self.source_metadata.values():
             if metadata.rejection_reason:

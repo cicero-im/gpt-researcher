@@ -2,11 +2,11 @@
 
 # libraries
 <<<<<<< HEAD
-=======
 import os
 from typing import Literal, Sequence
 import requests
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 import json
 import os
 

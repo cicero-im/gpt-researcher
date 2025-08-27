@@ -10,6 +10,7 @@ load_dotenv()
 
 
 async def main():
+<<<<<<< HEAD
     """
     Run an embedding configuration test: load config, apply defaults if missing, create a Memory instance, obtain embeddings, and print a sample embedding vector.
     
@@ -23,6 +24,8 @@ async def main():
     - Writes status and error information to standard output.
     - Does not raise exceptions from internal errors (they are caught and printed).
     """
+=======
+>>>>>>> newdev
     cfg = Config()
 
     print("Current embedding configuration:")
@@ -43,10 +46,10 @@ async def main():
             cfg.embedding_provider = "openai"
 
 <<<<<<< HEAD
-        if not hasattr(cfg, "embedding_model") or not cfg.embedding_model:
-=======
         if not hasattr(cfg, 'embedding_model') or not cfg.embedding_model:
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        if not hasattr(cfg, "embedding_model") or not cfg.embedding_model:
+>>>>>>> newdev
             print("Setting default embedding model: text-embedding-3-small")
             cfg.embedding_model = "text-embedding-3-small"
 

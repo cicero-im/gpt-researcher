@@ -15,9 +15,9 @@ __all__ = [
     "BrowserScraper",
     "FireCrawl",
 <<<<<<< HEAD
-    "JinaAIScraper",
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+    "JinaAIScraper",
+>>>>>>> newdev
     "NoDriverScraper",
     "PyMuPDFScraper",
     "Scraper",

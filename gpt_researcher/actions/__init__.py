@@ -35,9 +35,9 @@ __all__ = [
     "table_of_contents",
     "write_conclusion",
 <<<<<<< HEAD
-    "write_report_introduction",
-]
-=======
     "write_report_introduction"
 ]
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    "write_report_introduction",
+]
+>>>>>>> newdev

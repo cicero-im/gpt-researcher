@@ -1,9 +1,9 @@
 <<<<<<< HEAD
+from typing import List, Dict, Set, Optional, Any
+=======
 from typing import Any
 
-=======
-from typing import List, Dict, Set, Optional, Any
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 from fastapi import WebSocket
 
 from gpt_researcher import GPTResearcher
@@ -28,15 +28,6 @@ class DetailedReport:
         mcp_strategy=None,
     ):
 <<<<<<< HEAD
-        if subtopics is None:
-            subtopics = []
-        if query_domains is None:
-            query_domains = []
-        if document_urls is None:
-            document_urls = []
-        if source_urls is None:
-            source_urls = []
-=======
         """
         Initialize a DetailedReport and its internal GPTResearcher, and prepare shared state used across subtopic generation.
         
@@ -48,7 +39,16 @@ class DetailedReport:
             mcp_configs: Optional MCP configuration object passed through to GPTResearcher when present.
             mcp_strategy: Optional MCP strategy identifier passed through to GPTResearcher when present.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        if subtopics is None:
+            subtopics = []
+        if query_domains is None:
+            query_domains = []
+        if document_urls is None:
+            document_urls = []
+        if source_urls is None:
+            source_urls = []
+>>>>>>> newdev
         self.query = query
         self.report_type = report_type
         self.report_source = report_source

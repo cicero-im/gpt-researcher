@@ -58,25 +58,25 @@ def extract_sections(markdown_text: str) -> list[dict[str, str]]:
     parsed_md = markdown.markdown(markdown_text)
 
 <<<<<<< HEAD
-    pattern = r"<h\d>(.*?)</h\d>(.*?)(?=<h\d>|$)"
-=======
     pattern = r'<h\d>(.*?)</h\d>(.*?)(?=<h\d>|$)'
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    pattern = r"<h\d>(.*?)</h\d>(.*?)(?=<h\d>|$)"
+>>>>>>> newdev
     matches = re.findall(pattern, parsed_md, re.DOTALL)
 
     for title, content in matches:
         clean_content = re.sub(r"<.*?>", "", content).strip()
         if clean_content:
 <<<<<<< HEAD
-            sections.append(
-                {"section_title": title.strip(), "written_content": clean_content}
-            )
-=======
             sections.append({
                 "section_title": title.strip(),
                 "written_content": clean_content
             })
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+            sections.append(
+                {"section_title": title.strip(), "written_content": clean_content}
+            )
+>>>>>>> newdev
 
     return sections
 

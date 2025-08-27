@@ -2,14 +2,14 @@
 Evaluate model outputs for hallucination using the judges library.
 """
 <<<<<<< HEAD
-
-import logging
-
-=======
 import logging
 from typing import Dict
 
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+
+import logging
+
+>>>>>>> newdev
 from judges.classifiers.hallucination import HaluEvalDocumentSummaryNonFactual
 
 # Configure logging
@@ -23,6 +23,7 @@ class HallucinationEvaluator:
     """Evaluates model outputs for hallucination using the judges library."""
 
     def __init__(self, model: str = "openai/gpt-4o"):
+<<<<<<< HEAD
         """
         Create a HallucinationEvaluator configured to judge document-summary non-factuality.
         
@@ -32,20 +33,8 @@ class HallucinationEvaluator:
 
         self.summary_judge = HaluEvalDocumentSummaryNonFactual(model=model)
 
-<<<<<<< HEAD
-    def evaluate_response(self, model_output: str, source_text: str) -> dict:
-=======
     def evaluate_response(self, model_output: str, source_text: str) -> Dict:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Evaluate a single model response for hallucination against source documents.
-
-        Args:
-            model_output: The model's response to evaluate
-            source_text: Source text to check summary against
-
-=======
         Evaluate a model-generated summary against source text for hallucination.
         
         Performs a single judgment using the instance's summary_judge and returns a structured result.
@@ -54,7 +43,20 @@ class HallucinationEvaluator:
             model_output: The model's generated text (summary) to be evaluated.
             source_text: The source document or context to check the summary against.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        """Initialize the hallucination evaluator."""
+
+        self.summary_judge = HaluEvalDocumentSummaryNonFactual(model=model)
+
+    def evaluate_response(self, model_output: str, source_text: str) -> dict:
+        """
+        Evaluate a single model response for hallucination against source documents.
+
+        Args:
+            model_output: The model's response to evaluate
+            source_text: Source text to check summary against
+
+>>>>>>> newdev
         Returns:
             dict: {
                 "output": model_output,
@@ -88,10 +90,6 @@ class HallucinationEvaluator:
 def main():
     # Example test case
 <<<<<<< HEAD
-    model_output = (
-        "The capital of France is Paris, a city known for its rich history and culture."
-    )
-=======
     """
     Run a simple example demonstrating HallucinationEvaluator on a sample model output and source text.
     
@@ -100,7 +98,11 @@ def main():
     Intended as a command-line/demo entry point; it has no return value and produces console output.
     """
     model_output = "The capital of France is Paris, a city known for its rich history and culture."
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    model_output = (
+        "The capital of France is Paris, a city known for its rich history and culture."
+    )
+>>>>>>> newdev
     source_text = "Paris is the capital and largest city of France, located in the northern part of the country."
 
     evaluator = HallucinationEvaluator()
@@ -121,4 +123,4 @@ if __name__ == "__main__":
     main()
 =======
     main()
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

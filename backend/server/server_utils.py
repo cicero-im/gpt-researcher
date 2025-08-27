@@ -7,6 +7,14 @@ import shutil
 import time
 import traceback
 <<<<<<< HEAD
+from typing import Awaitable, Dict, Any
+from fastapi.responses import JSONResponse
+from gpt_researcher.document.document import DocumentLoader
+from gpt_researcher import GPTResearcher
+from backend.utils import write_md_to_pdf, write_md_to_word, write_text_to_md
+from datetime import datetime
+import logging
+=======
 
 from collections.abc import Awaitable
 from datetime import datetime
@@ -19,15 +27,7 @@ from gpt_researcher import GPTResearcher
 from gpt_researcher.actions import stream_output
 from gpt_researcher.document.document import DocumentLoader
 from multi_agents.main import run_research_task
-=======
-from typing import Awaitable, Dict, Any
-from fastapi.responses import JSONResponse
-from gpt_researcher.document.document import DocumentLoader
-from gpt_researcher import GPTResearcher
-from backend.utils import write_md_to_pdf, write_md_to_word, write_text_to_md
-from datetime import datetime
-import logging
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -40,7 +40,7 @@ class CustomLogsHandler:
         self.logs = []
         self.websocket = websocket
         sanitized_filename = sanitize_filename(f"task_{int(time.time())}_{task}")
-        self.log_file = os.path.join("outputs", f"{sanitized_filename}.json")
+        self.log_file: str = os.path.join("outputs", f"{sanitized_filename}.json")
         self.timestamp = datetime.now().isoformat()
         # Initialize log file with metadata
         os.makedirs("outputs", exist_ok=True)
@@ -62,9 +62,6 @@ class CustomLogsHandler:
             )
 
 <<<<<<< HEAD
-    async def send_json(self, data: dict[str, Any]) -> None:
-        """Store log data and send to websocket"""
-=======
     async def send_json(self, data: Dict[str, Any]) -> None:
         """
         Send a log event to the connected websocket (if present) and persist it to the JSON log file.
@@ -74,7 +71,10 @@ class CustomLogsHandler:
         Parameters:
             data (Dict[str, Any]): Log payload. Expected to include a 'type' key (e.g., 'logs') to determine whether to append an event or update the content.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def send_json(self, data: dict[str, Any]) -> None:
+        """Store log data and send to websocket"""
+>>>>>>> newdev
         # Send to websocket for real-time display
         if self.websocket:
             await self.websocket.send_json(data)
@@ -85,18 +85,16 @@ class CustomLogsHandler:
 
         # Update appropriate section based on data type
         if data.get("type") == "logs":
-            log_data["events"].append({
-                "timestamp": datetime.now().isoformat(),
-                "type": "event",
-                "data": data,
-            })
+            log_data["events"].append(
+                {"timestamp": datetime.now().isoformat(), "type": "event", "data": data}
+            )
         else:
             # Update content section for other types of data
 <<<<<<< HEAD
-            log_data["content"].update(data)
-=======
             log_data['content'].update(data)
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+            log_data["content"].update(data)
+>>>>>>> newdev
 
         # Save updated log file
         with open(self.log_file, "w") as f:
@@ -148,17 +146,6 @@ class Researcher:
 def sanitize_filename(filename: str) -> str:
     # Split into components
 <<<<<<< HEAD
-<<<<<<< HEAD
-    prefix, timestamp, *task_parts = filename.split("_")
-    task = "_".join(task_parts)
-
-    # Calculate max length for task portion
-    # 255 - len(os.getcwd()) - len("\\gpt-researcher\\outputs\\") - len("task_") - len(timestamp) - len("_.json") - safety_margin
-    max_task_length = (
-        255 - len(os.getcwd()) - 24 - 5 - 10 - 6 - 5
-    )  # ~189 chars for task
-=======
-=======
     """
     Return a filesystem-safe filename derived from an underscore-separated input, truncating the task portion to fit typical path length limits.
     
@@ -170,14 +157,22 @@ def sanitize_filename(filename: str) -> str:
     Returns:
         str: A sanitized filename containing only word characters and hyphens, with the task part truncated if necessary to avoid excessively long paths.
     """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
     prefix, timestamp, *task_parts = filename.split('_')
     task = '_'.join(task_parts)
 
     # Calculate max length for task portion
     # 255 - len(os.getcwd()) - len("\\gpt-researcher\\outputs\\") - len("task_") - len(timestamp) - len("_.json") - safety_margin
     max_task_length = 255 - len(os.getcwd()) - 24 - 5 - 10 - 6 - 5  # ~189 chars for task
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    prefix, timestamp, *task_parts = filename.split("_")
+    task = "_".join(task_parts)
+
+    # Calculate max length for task portion
+    # 255 - len(os.getcwd()) - len("\\gpt-researcher\\outputs\\") - len("task_") - len(timestamp) - len("_.json") - safety_margin
+    max_task_length = (
+        255 - len(os.getcwd()) - 24 - 5 - 10 - 6 - 5
+    )  # ~189 chars for task
+>>>>>>> newdev
 
     # Truncate task if needed (by bytes)
     truncated_task = ""
@@ -231,26 +226,29 @@ async def handle_start_command(websocket, data: str, manager):
 
     if not task or not report_type:
         print("❌ Error: Missing task or report_type")
+<<<<<<< HEAD
         await websocket.send_json({
             "type": "logs",
             "content": "error",
-<<<<<<< HEAD
-            "output": f"Missing required parameters - task: {task}, report_type: {report_type}",
-=======
             "output": f"Missing required parameters - task: {task}, report_type: {report_type}"
->>>>>>> 1027e1d0 (Fix linting issues)
         })
+=======
+        await websocket.send_json(
+            {
+                "type": "logs",
+                "content": "error",
+                "output": f"Missing required parameters - task: {task}, report_type: {report_type}",
+            }
+        )
+>>>>>>> newdev
         return
 
     # Create logs handler with websocket and task
     logs_handler = CustomLogsHandler(websocket, task)
     # Initialize log content with query
-    await logs_handler.send_json({
-        "query": task,
-        "sources": [],
-        "context": [],
-        "report": "",
-    })
+    await logs_handler.send_json(
+        {"query": task, "sources": [], "context": [], "report": ""}
+    )
 
     sanitized_filename = sanitize_filename(f"task_{int(time.time())}_{task}")
 
@@ -271,7 +269,7 @@ async def handle_start_command(websocket, data: str, manager):
     report = str(report)
     file_paths = await generate_report_files(report, sanitized_filename)
     # Add JSON log path to file_paths
-    file_paths["json"] = os.path.relpath(logs_handler.log_file)
+    file_paths["json"] = str(os.path.relpath(logs_handler.log_file))
     await send_file_paths(websocket, file_paths)
 
 
@@ -513,11 +511,13 @@ async def handle_websocket_communication(websocket, manager):
                 raise
             except Exception as e:
                 logger.error(f"Error running task: {e}\n{traceback.format_exc()}")
-                await websocket.send_json({
-                    "type": "logs",
-                    "content": "error",
-                    "output": f"Error: {e}",
-                })
+                await websocket.send_json(
+                    {
+                        "type": "logs",
+                        "content": "error",
+                        "output": f"Error: {e}",
+                    }
+                )
 
         return asyncio.create_task(safe_run())
 
@@ -533,10 +533,12 @@ async def handle_websocket_communication(websocket, manager):
                     logger.warning(
                         f"Received request while task is already running. Request data preview: {data[: min(20, len(data))]}..."
                     )
-                    websocket.send_json({
-                        "types": "logs",
-                        "output": "Task already running. Please wait.",
-                    })
+                    websocket.send_json(
+                        {
+                            "types": "logs",
+                            "output": "Task already running. Please wait.",
+                        }
+                    )
                 elif data.startswith("start"):
                     running_task = run_long_running_task(
                         handle_start_command(websocket, data, manager)

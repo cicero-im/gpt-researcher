@@ -40,8 +40,6 @@ class Config:
             self.mcp_allowed_root_paths = self.mcp_allowed_root_paths
 
 <<<<<<< HEAD
-    def _set_attributes(self, config: dict[str, Any]) -> None:
-=======
     def _set_attributes(self, config: Dict[str, Any]) -> None:
         """
         Set instance attributes from a configuration mapping, applying environment overrides and special handling for the RETRIEVER setting.
@@ -51,7 +49,9 @@ class Config:
         Parameters:
             config (Dict[str, Any]): Configuration mapping whose keys are configuration names (matching environment variable names).
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _set_attributes(self, config: dict[str, Any]) -> None:
+>>>>>>> newdev
         for key, value in config.items():
             env_value = os.getenv(key)
             if env_value is not None:
@@ -141,9 +141,6 @@ class Config:
             self.smart_llm_model = os.environ["SMART_LLM_MODEL"] or self.smart_llm_model
 
 <<<<<<< HEAD
-    def _set_doc_path(self, config: dict[str, Any]) -> None:
-        self.doc_path = config["DOC_PATH"]
-=======
     def _set_doc_path(self, config: Dict[str, Any]) -> None:
         """
         Set and validate the documentation path from the given configuration.
@@ -154,20 +151,23 @@ class Config:
             config (Dict[str, Any]): Configuration mapping expected to contain the 'DOC_PATH' key.
         """
         self.doc_path = config['DOC_PATH']
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def _set_doc_path(self, config: dict[str, Any]) -> None:
+        self.doc_path = config["DOC_PATH"]
+>>>>>>> newdev
         if self.doc_path:
             try:
                 self.validate_doc_path()
             except Exception as e:
 <<<<<<< HEAD
+                print(f"Warning: Error validating doc_path: {e!s}. Using default doc_path.")
+                self.doc_path = DEFAULT_CONFIG['DOC_PATH']
+=======
                 print(
                     f"Warning: Error validating doc_path: {e!s}. Using default doc_path."
                 )
                 self.doc_path = DEFAULT_CONFIG["DOC_PATH"]
-=======
-                print(f"Warning: Error validating doc_path: {e!s}. Using default doc_path.")
-                self.doc_path = DEFAULT_CONFIG['DOC_PATH']
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
     @classmethod
     def load_config(cls, config_path: str | None) -> dict[str, Any]:
@@ -203,9 +203,6 @@ class Config:
         return configs
 
 <<<<<<< HEAD
-    def parse_retrievers(self, retriever_str: str) -> list[str]:
-        """Parse the retriever string into a list of retrievers and validate them."""
-=======
     def parse_retrievers(self, retriever_str: str) -> List[str]:
         """
         Parse a comma-separated retriever string into a validated list of retriever names.
@@ -223,15 +220,17 @@ class Config:
         Raises:
             ValueError: If any retriever name is not among the available retrievers.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
         from ..retrievers.utils import get_all_retriever_names
 
-<<<<<<< HEAD
-        retrievers = [retriever.strip() for retriever in retriever_str.split(",")]
-=======
         retrievers = [retriever.strip()
                       for retriever in retriever_str.split(",")]
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    def parse_retrievers(self, retriever_str: str) -> list[str]:
+        """Parse the retriever string into a list of retrievers and validate them."""
+        from ..retrievers.utils import get_all_retriever_names
+
+        retrievers = [retriever.strip() for retriever in retriever_str.split(",")]
+>>>>>>> newdev
         valid_retrievers = get_all_retriever_names() or []
         invalid_retrievers = [r for r in retrievers if r not in valid_retrievers]
         if invalid_retrievers:
@@ -335,6 +334,11 @@ class Config:
     def get_mcp_server_config(self, name: str) -> dict:
         """
 <<<<<<< HEAD
+        Return the configuration dict for an MCP server with the given name.
+        
+        If name is falsy, there are no configured servers, or no server with a matching
+        exact "name" key is found, an empty dict is returned.
+=======
         Get the configuration for an MCP server.
 
         Args:
@@ -342,12 +346,7 @@ class Config:
 
         Returns:
             dict: The server configuration, or an empty dict if the server is not found.
-=======
-        Return the configuration dict for an MCP server with the given name.
-        
-        If name is falsy, there are no configured servers, or no server with a matching
-        exact "name" key is found, an empty dict is returned.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         """
         if not name or not self.mcp_servers:
             return {}
@@ -360,4 +359,4 @@ class Config:
         return {}
 =======
         return {}
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

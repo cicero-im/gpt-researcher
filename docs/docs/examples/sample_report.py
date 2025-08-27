@@ -8,8 +8,6 @@ nest_asyncio.apply()
 
 
 <<<<<<< HEAD
-async def get_report(query: str, report_type: str, custom_prompt: str | None = None):
-=======
 
 async def get_report(query: str, report_type: str, custom_prompt: str = None):
     """
@@ -33,13 +31,13 @@ async def get_report(query: str, report_type: str, custom_prompt: str = None):
     Notes:
         - This function performs asynchronous I/O and may incur external API/LLM calls and associated costs.
     """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
     researcher = GPTResearcher(query, report_type)
-<<<<<<< HEAD
-    _research_result = await researcher.conduct_research()
-=======
     research_result = await researcher.conduct_research()
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+async def get_report(query: str, report_type: str, custom_prompt: str | None = None):
+    researcher = GPTResearcher(query, report_type)
+    _research_result = await researcher.conduct_research()
+>>>>>>> newdev
 
     # Generate report with optional custom prompt
     report = await researcher.write_report(custom_prompt=custom_prompt)
@@ -68,12 +66,12 @@ if __name__ == "__main__":
     # Custom report with specific formatting requirements
     custom_prompt = "Answer in short, 2 paragraphs max without citations. Focus on the most important facts for investors."
 <<<<<<< HEAD
+    custom_report, _, _, _, _ = asyncio.run(get_report(query, report_type, custom_prompt))
+=======
     custom_report, _, _, _, _ = asyncio.run(
         get_report(query, report_type, custom_prompt)
     )
-=======
-    custom_report, _, _, _, _ = asyncio.run(get_report(query, report_type, custom_prompt))
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
     print("\nCustomized Short Report:")
     print(custom_report)

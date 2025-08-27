@@ -1,8 +1,8 @@
 <<<<<<< HEAD
-from typing import ClassVar
-=======
 from typing import Dict, List
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+from typing import ClassVar
+>>>>>>> newdev
 
 from langchain.callbacks.manager import CallbackManagerForRetrieverRun
 from langchain.schema import Document
@@ -52,8 +52,6 @@ class SectionRetriever(BaseRetriever):
     def _get_relevant_documents(
         self, query: str, *, run_manager: CallbackManagerForRetrieverRun
 <<<<<<< HEAD
-    ) -> list[Document]:
-=======
     ) -> List[Document]:
 
         """
@@ -70,7 +68,9 @@ class SectionRetriever(BaseRetriever):
             page_content is the section's `written_content` and metadata contains
             "section_title".
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    ) -> list[Document]:
+>>>>>>> newdev
         docs = [
             Document(
                 page_content=page.get("written_content", ""),

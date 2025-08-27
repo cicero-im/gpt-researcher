@@ -15,9 +15,9 @@ from .actions import (
 from .config import Config
 from .memory import Memory
 <<<<<<< HEAD
-=======
 from .utils.enum import ReportSource, ReportType, Tone
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 from .prompts import get_prompt_family
 from .skills.browser import BrowserManager
 from .skills.context_manager import ContextManager
@@ -66,6 +66,20 @@ class GPTResearcher:
     ):
         """
 <<<<<<< HEAD
+        Initialize a GPTResearcher configured to run and orchestrate research workflows, generate reports, manage context, and optionally run multi-component processing (MCP).
+        
+        Detailed behavior:
+        - Stores configuration, retrievers, memory, and core components (ResearchConductor, ReportGenerator, ContextManager, BrowserManager, SourceCurator).
+        - If report_type is DeepResearch, initializes a DeepResearchSkill.
+        - Processes MCP initialization: if mcp_configs is provided, calls _process_mcp_configs to adjust retriever settings; resolves MCP execution strategy via _resolve_mcp_strategy.
+        
+        Parameters of note:
+        - mcp_configs (list[dict] | None): Optional MCP server configurations. Each dict may include keys such as "name", "command", "args", "tool_name", "env", "connection_url", "connection_type", and "connection_token". When provided, configs are validated and may cause "mcp" to be added to retriever configuration unless the RETRIEVER environment variable was explicitly set.
+        - mcp_strategy (str | None): Preferred MCP execution strategy. Accepted values: "fast", "deep", "disabled". Deprecated aliases ("optimized" -> "fast", "comprehensive" -> "deep") are mapped with a warning. If omitted, strategy may be derived from mcp_max_iterations or configuration, defaulting to "fast".
+        - mcp_max_iterations (int | None): Deprecated legacy parameter used for backward-compatible strategy mapping (0 -> "disabled", 1 -> "fast", -1 -> "deep", others -> "fast"); supplying mcp_strategy takes precedence.
+        
+        Other parameters are stored and used to configure retrieval, reporting, and research workflows (query, report_type, report_format, report_source, tone, source/document URLs, query_domains, vector_store, websocket, agent/role, context, headers, prompt_family, etc.). This initializer does not return a value.
+=======
         Initialize a GPT Researcher instance.
 
         Args:
@@ -117,21 +131,7 @@ class GPTResearcher:
                 - "fast" (default): Run MCP once with original query for best performance
                 - "deep": Run MCP for all sub-queries for maximum thoroughness
                 - "disabled": Skip MCP entirely, use only web retrievers
-=======
-        Initialize a GPTResearcher configured to run and orchestrate research workflows, generate reports, manage context, and optionally run multi-component processing (MCP).
-        
-        Detailed behavior:
-        - Stores configuration, retrievers, memory, and core components (ResearchConductor, ReportGenerator, ContextManager, BrowserManager, SourceCurator).
-        - If report_type is DeepResearch, initializes a DeepResearchSkill.
-        - Processes MCP initialization: if mcp_configs is provided, calls _process_mcp_configs to adjust retriever settings; resolves MCP execution strategy via _resolve_mcp_strategy.
-        
-        Parameters of note:
-        - mcp_configs (list[dict] | None): Optional MCP server configurations. Each dict may include keys such as "name", "command", "args", "tool_name", "env", "connection_url", "connection_type", and "connection_token". When provided, configs are validated and may cause "mcp" to be added to retriever configuration unless the RETRIEVER environment variable was explicitly set.
-        - mcp_strategy (str | None): Preferred MCP execution strategy. Accepted values: "fast", "deep", "disabled". Deprecated aliases ("optimized" -> "fast", "comprehensive" -> "deep") are mapped with a warning. If omitted, strategy may be derived from mcp_max_iterations or configuration, defaulting to "fast".
-        - mcp_max_iterations (int | None): Deprecated legacy parameter used for backward-compatible strategy mapping (0 -> "disabled", 1 -> "fast", -1 -> "deep", others -> "fast"); supplying mcp_strategy takes precedence.
-        
-        Other parameters are stored and used to configure retrieval, reporting, and research workflows (query, report_type, report_format, report_source, tone, source/document URLs, query_domains, vector_store, websocket, agent/role, context, headers, prompt_family, etc.). This initializer does not return a value.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         """
         self.kwargs = kwargs
         self.query = query
@@ -149,6 +149,7 @@ class GPTResearcher:
         self.complement_source_urls = complement_source_urls
         self.query_domains = query_domains or []
         self.research_sources = []  # The list of scraped sources including title, content and images
+        self._source_id = 1
         self.research_images = []  # The list of selected research images
         self.documents = documents
         self.vector_store = VectorStoreWrapper(vector_store) if vector_store else None
@@ -165,12 +166,12 @@ class GPTResearcher:
         self.research_costs = 0.0
         self.log_handler = log_handler
 <<<<<<< HEAD
+        self.prompt_family = get_prompt_family(prompt_family or self.cfg.prompt_family, self.cfg)
+=======
         self.prompt_family = get_prompt_family(
             prompt_family or self.cfg.prompt_family, self.cfg
         )
-=======
-        self.prompt_family = get_prompt_family(prompt_family or self.cfg.prompt_family, self.cfg)
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
         # Process MCP configurations if provided
         self.mcp_configs = mcp_configs
@@ -251,13 +252,13 @@ class GPTResearcher:
         if mcp_max_iterations is not None:
             import logging
 <<<<<<< HEAD
+            logging.getLogger(__name__).warning("mcp_max_iterations is deprecated, use mcp_strategy instead")
+=======
 
             logging.getLogger(__name__).warning(
                 "mcp_max_iterations is deprecated, use mcp_strategy instead"
             )
-=======
-            logging.getLogger(__name__).warning("mcp_max_iterations is deprecated, use mcp_strategy instead")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             if mcp_max_iterations == 0:
                 return "disabled"
@@ -287,6 +288,13 @@ class GPTResearcher:
     def _process_mcp_configs(self, mcp_configs: list[dict]) -> None:
         """
 <<<<<<< HEAD
+        Validate and apply MCP configurations and ensure the MCP retriever is enabled when appropriate.
+        
+        If the RETRIEVER environment variable is not set, this will add "mcp" to the configured retrievers (or set retrievers to "mcp" when none exist). Always stores the provided MCP configuration list on self.mcp_configs for later use by the MCP retriever.
+        
+        Parameters:
+            mcp_configs (list[dict]): List of MCP server configuration dictionaries to store for MCP retrieval.
+=======
         Process MCP configurations from a list of configuration dictionaries.
 
         This method validates the MCP configurations. It only adds MCP to retrievers
@@ -294,14 +302,7 @@ class GPTResearcher:
 
         Args:
             mcp_configs (list[dict]): List of MCP server configuration dictionaries.
-=======
-        Validate and apply MCP configurations and ensure the MCP retriever is enabled when appropriate.
-        
-        If the RETRIEVER environment variable is not set, this will add "mcp" to the configured retrievers (or set retrievers to "mcp" when none exist). Always stores the provided MCP configuration list on self.mcp_configs for later use by the MCP retriever.
-        
-        Parameters:
-            mcp_configs (list[dict]): List of MCP server configuration dictionaries to store for MCP retrieval.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         """
         # Check if user explicitly set RETRIEVER environment variable
         user_set_retriever = os.getenv("RETRIEVER") is not None

@@ -4,14 +4,14 @@ MCP Tool Selection Module
 Handles intelligent tool selection using LLM analysis.
 """
 <<<<<<< HEAD
-
-import json
-import logging
-=======
 import json
 import logging
 from typing import List
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+
+import json
+import logging
+>>>>>>> newdev
 
 logger = logging.getLogger(__name__)
 
@@ -42,14 +42,6 @@ class MCPToolSelector:
     ) -> list:
         """
 <<<<<<< HEAD
-        Use LLM to select the most relevant tools for the research query.
-
-        Args:
-            query: Research query
-            all_tools: List of all available tools
-            max_tools: Maximum number of tools to select (default: 3)
-
-=======
         Select the most relevant tools for a research query using an LLM, with a pattern-based fallback.
         
         Uses the configured strategic LLM to rank and pick up to `max_tools` from `all_tools`. Each element of
@@ -64,7 +56,15 @@ class MCPToolSelector:
             all_tools: List of available tool objects (each should provide `.name` and `.description`).
             max_tools: Maximum number of tools to return; will be capped to len(all_tools).
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Use LLM to select the most relevant tools for the research query.
+
+        Args:
+            query: Research query
+            all_tools: List of all available tools
+            max_tools: Maximum number of tools to select (default: 3)
+
+>>>>>>> newdev
         Returns:
             List of selected tool objects (a subset of `all_tools`). If LLM selection fails or yields no
             selections, a fallback list determined by heuristic scoring is returned.
@@ -76,12 +76,12 @@ class MCPToolSelector:
             max_tools = len(all_tools)
 
 <<<<<<< HEAD
+        logger.info(f"Using LLM to select {max_tools} most relevant tools from {len(all_tools)} available")
+=======
         logger.info(
             f"Using LLM to select {max_tools} most relevant tools from {len(all_tools)} available"
         )
-=======
-        logger.info(f"Using LLM to select {max_tools} most relevant tools from {len(all_tools)} available")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
         # Create tool descriptions for LLM analysis
         tools_info = []
@@ -145,12 +145,12 @@ class MCPToolSelector:
                 if tool_index is not None and 0 <= tool_index < len(all_tools):
                     selected_tools.append(all_tools[tool_index])
 <<<<<<< HEAD
+                    logger.info(f"Selected tool '{tool_name}' (score: {relevance_score}): {reason}")
+=======
                     logger.info(
                         f"Selected tool '{tool_name}' (score: {relevance_score}): {reason}"
                     )
-=======
-                    logger.info(f"Selected tool '{tool_name}' (score: {relevance_score}): {reason}")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             if len(selected_tools) == 0:
                 logger.warning("No tools selected by LLM, using fallback selection")
@@ -173,12 +173,6 @@ class MCPToolSelector:
     async def _call_llm_for_tool_selection(self, prompt: str) -> str:
         """
 <<<<<<< HEAD
-        Call the LLM using the existing create_chat_completion function for tool selection.
-
-        Args:
-            prompt (str): The prompt to send to the LLM.
-
-=======
         Call the configured LLM to generate a tool-selection response for the given prompt.
         
         This sends the prompt as a single user message to the strategic LLM model configured on self.cfg using a deterministic temperature (0.0). If a researcher with an add_costs method is attached, that method will be used as the cost_callback for the LLM call. On failure (including missing configuration or any runtime error) the method returns an empty string.
@@ -186,7 +180,13 @@ class MCPToolSelector:
         Parameters:
             prompt (str): The prompt text sent to the LLM as the user message.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Call the LLM using the existing create_chat_completion function for tool selection.
+
+        Args:
+            prompt (str): The prompt to send to the LLM.
+
+>>>>>>> newdev
         Returns:
             str: The LLM's text response, or an empty string on error or if no configuration is available.
         """
@@ -219,13 +219,6 @@ class MCPToolSelector:
     def _fallback_tool_selection(self, all_tools: list, max_tools: int) -> list:
         """
 <<<<<<< HEAD
-        Fallback tool selection using pattern matching if LLM selection fails.
-
-        Args:
-            all_tools: List of all available tools
-            max_tools: Maximum number of tools to select
-
-=======
         Select up to max_tools using a simple pattern-based heuristic when LLM selection fails.
         
         This case-insensitive fallback scans each tool's name and description for research-oriented keywords
@@ -238,13 +231,23 @@ class MCPToolSelector:
             all_tools (List): Iterable of tool objects; each must expose .name (str) and .description (optional str).
             max_tools (int): Maximum number of tools to return.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Fallback tool selection using pattern matching if LLM selection fails.
+
+        Args:
+            all_tools: List of all available tools
+            max_tools: Maximum number of tools to select
+
+>>>>>>> newdev
         Returns:
             List: Selected tool objects (up to max_tools), ordered by descending relevance score.
         """
         # Define patterns for research-relevant tools
         research_patterns = [
 <<<<<<< HEAD
+            'search', 'get', 'read', 'fetch', 'find', 'list', 'query',
+            'lookup', 'retrieve', 'browse', 'view', 'show', 'describe'
+=======
             "search",
             "get",
             "read",
@@ -258,10 +261,7 @@ class MCPToolSelector:
             "view",
             "show",
             "describe",
-=======
-            'search', 'get', 'read', 'fetch', 'find', 'list', 'query',
-            'lookup', 'retrieve', 'browse', 'view', 'show', 'describe'
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
         ]
 
         scored_tools = []
@@ -287,11 +287,11 @@ class MCPToolSelector:
 
         for i, (tool, score) in enumerate(scored_tools[:max_tools]):
 <<<<<<< HEAD
-            logger.info(f"Fallback selected tool {i + 1}: {tool.name} (score: {score})")
-
-        return selected_tools
-=======
             logger.info(f"Fallback selected tool {i+1}: {tool.name} (score: {score})")
 
         return selected_tools
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+            logger.info(f"Fallback selected tool {i + 1}: {tool.name} (score: {score})")
+
+        return selected_tools
+>>>>>>> newdev

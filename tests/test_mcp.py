@@ -25,9 +25,9 @@ Prerequisites:
 import asyncio
 import logging
 <<<<<<< HEAD
-import os
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+import os
+>>>>>>> newdev
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -115,13 +115,13 @@ async def test_web_search_mcp():
         # Create researcher with web search query
         query = "What is the latest updates in the NBA playoffs?"
 <<<<<<< HEAD
-        researcher = GPTResearcher(query=query, mcp_configs=mcp_configs)
-=======
         researcher = GPTResearcher(
             query=query,
             mcp_configs=mcp_configs
         )
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        researcher = GPTResearcher(query=query, mcp_configs=mcp_configs)
+>>>>>>> newdev
 
         print("✅ GPTResearcher initialized with web search MCP")
         print(f"🔧 MCP servers configured: {len(mcp_configs)} (Tavily)")
@@ -193,13 +193,13 @@ async def test_github_mcp():
         # Create researcher with code-related query
         query = "What are the key features and implementation of React's useState hook? How has it evolved in recent versions?"
 <<<<<<< HEAD
-        researcher = GPTResearcher(query=query, mcp_configs=mcp_configs)
-=======
         researcher = GPTResearcher(
             query=query,
             mcp_configs=mcp_configs
         )
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        researcher = GPTResearcher(query=query, mcp_configs=mcp_configs)
+>>>>>>> newdev
 
         print("✅ GPTResearcher initialized with GitHub MCP")
         print(f"🔧 MCP servers configured: {len(mcp_configs)} (GitHub)")
@@ -314,4 +314,4 @@ if __name__ == "__main__":
     asyncio.run(main())
 =======
     asyncio.run(main())
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

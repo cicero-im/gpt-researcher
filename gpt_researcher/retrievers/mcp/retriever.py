@@ -49,28 +49,18 @@ class MCPRetriever:
         self,
         query: str,
 <<<<<<< HEAD
-        headers: dict[str, str] | None = None,
-        query_domains: list[str] | None = None,
-=======
         headers: Optional[Dict[str, str]] = None,
         query_domains: Optional[List[str]] = None,
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        headers: dict[str, str] | None = None,
+        query_domains: list[str] | None = None,
+>>>>>>> newdev
         websocket=None,
         researcher=None,
         **kwargs,
     ):
         """
 <<<<<<< HEAD
-        Initialize the MCP Retriever.
-
-        Args:
-            query (str): The search query string.
-            headers (dict, optional): Headers containing MCP configuration.
-            query_domains (list, optional): List of domains to search (not used in MCP).
-            websocket: WebSocket for stream logging.
-            researcher: Researcher instance containing mcp_configs and cfg.
-            **kwargs: Additional arguments (for compatibility).
-=======
         Create an MCPRetriever for performing MCP-based research on a query.
         
         Initializes internal components (MCP client manager, tool selector, research skill, streamer) and caches. If no MCP server configurations are available the retriever will log/stream a critical message; if the provided researcher lacks a required configuration object this constructor raises ValueError.
@@ -85,7 +75,17 @@ class MCPRetriever:
         
         Raises:
             ValueError: If the provided researcher is missing the required cfg attribute.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Initialize the MCP Retriever.
+
+        Args:
+            query (str): The search query string.
+            headers (dict, optional): Headers containing MCP configuration.
+            query_domains (list, optional): List of domains to search (not used in MCP).
+            websocket: WebSocket for stream logging.
+            researcher: Researcher instance containing mcp_configs and cfg.
+            **kwargs: Additional arguments (for compatibility).
+>>>>>>> newdev
         """
         self.query = query
         self.headers = headers or {}
@@ -136,11 +136,6 @@ class MCPRetriever:
     def _get_config(self):
         """
 <<<<<<< HEAD
-        Get configuration from the researcher instance.
-
-        Returns:
-            Config: Configuration object with LLM settings.
-=======
         Return the researcher's configuration object containing LLM settings.
         
         If the retriever was constructed with a researcher that exposes a `cfg` attribute,
@@ -149,17 +144,22 @@ class MCPRetriever:
         
         Raises:
             ValueError: If the researcher is missing or does not provide a `cfg` attribute.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Get configuration from the researcher instance.
+
+        Returns:
+            Config: Configuration object with LLM settings.
+>>>>>>> newdev
         """
         if self.researcher and hasattr(self.researcher, "cfg"):
             return self.researcher.cfg
 <<<<<<< HEAD
-=======
 
         # If no config available, this is a critical error
         logger.error("No config found in researcher instance. MCPRetriever requires a researcher instance with cfg attribute.")
         raise ValueError("MCPRetriever requires a researcher instance with cfg attribute containing LLM configuration")
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 
         # If no config available, this is a critical error
         logger.error(
@@ -172,12 +172,6 @@ class MCPRetriever:
     async def search_async(self, max_results: int = 10) -> list[dict[str, str]]:
         """
 <<<<<<< HEAD
-        Perform an async search using MCP tools with intelligent two-stage approach.
-
-        Args:
-            max_results: Maximum number of results to return.
-
-=======
         Perform an asynchronous two-stage MCP-based search for the retriever's query.
         
         Performs (1) tool discovery, (2) selection of up to three relevant tools, then runs research with the selected tools.
@@ -186,7 +180,13 @@ class MCPRetriever:
         Parameters:
             max_results (int): Maximum number of results to return (default 10). Results are truncated to this length if more are produced.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Perform an async search using MCP tools with intelligent two-stage approach.
+
+        Args:
+            max_results: Maximum number of results to return.
+
+>>>>>>> newdev
         Returns:
             List[Dict[str, str]]: A list of result dictionaries (e.g., containing keys like "title", "href", "body"). Returns an empty list on missing MCP configurations, if no tools are selected, or on error.
         """
@@ -217,16 +217,16 @@ class MCPRetriever:
 
             # Stage 2: Select most relevant tools
 <<<<<<< HEAD
+            await self.streamer.stream_stage_start("Stage 2", "Selecting most relevant tools")
+            selected_tools = await self.tool_selector.select_relevant_tools(self.query, all_tools, max_tools=3)
+=======
             await self.streamer.stream_stage_start(
                 "Stage 2", "Selecting most relevant tools"
             )
             selected_tools = await self.tool_selector.select_relevant_tools(
                 self.query, all_tools, max_tools=3
             )
-=======
-            await self.streamer.stream_stage_start("Stage 2", "Selecting most relevant tools")
-            selected_tools = await self.tool_selector.select_relevant_tools(self.query, all_tools, max_tools=3)
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             if not selected_tools:
                 await self.streamer.stream_warning(
@@ -236,16 +236,16 @@ class MCPRetriever:
 
             # Stage 3: Conduct research with selected tools
 <<<<<<< HEAD
+            await self.streamer.stream_stage_start("Stage 3", "Conducting research with selected tools")
+            results = await self.mcp_researcher.conduct_research_with_tools(self.query, selected_tools)
+=======
             await self.streamer.stream_stage_start(
                 "Stage 3", "Conducting research with selected tools"
             )
             results = await self.mcp_researcher.conduct_research_with_tools(
                 self.query, selected_tools
             )
-=======
-            await self.streamer.stream_stage_start("Stage 3", "Conducting research with selected tools")
-            results = await self.mcp_researcher.conduct_research_with_tools(self.query, selected_tools)
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             # Limit the number of results
             if len(results) > max_results:
@@ -257,16 +257,16 @@ class MCPRetriever:
 
             # Calculate total content length for summary
 <<<<<<< HEAD
+            total_content_length = sum(len(result.get("body", "")) for result in results)
+            await self.streamer.stream_research_results(len(results), total_content_length)
+=======
             total_content_length = sum(
                 len(result.get("body", "")) for result in results
             )
             await self.streamer.stream_research_results(
                 len(results), total_content_length
             )
-=======
-            total_content_length = sum(len(result.get("body", "")) for result in results)
-            await self.streamer.stream_research_results(len(results), total_content_length)
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             # Log detailed content samples for debugging
             if results:
@@ -277,6 +277,17 @@ class MCPRetriever:
                     content = result.get("body", "")
                     content_length = len(content)
 <<<<<<< HEAD
+                    content_sample = content[:400] + "..." if len(content) > 400 else content
+
+                    logger.debug(f"Result {i+1}/{len(results)}: '{title}'")
+                    logger.debug(f"URL: {url}")
+                    logger.debug(f"Content ({content_length:,} chars): {content_sample}")
+
+                if len(results) > 3:
+                    remaining_results = len(results) - 3
+                    remaining_content = sum(len(result.get("body", "")) for result in results[3:])
+                    logger.debug(f"... and {remaining_results} more results ({remaining_content:,} chars)")
+=======
                     content_sample = (
                         content[:400] + "..." if len(content) > 400 else content
                     )
@@ -295,18 +306,7 @@ class MCPRetriever:
                     logger.debug(
                         f"... and {remaining_results} more results ({remaining_content:,} chars)"
                     )
-=======
-                    content_sample = content[:400] + "..." if len(content) > 400 else content
-
-                    logger.debug(f"Result {i+1}/{len(results)}: '{title}'")
-                    logger.debug(f"URL: {url}")
-                    logger.debug(f"Content ({content_length:,} chars): {content_sample}")
-
-                if len(results) > 3:
-                    remaining_results = len(results) - 3
-                    remaining_content = sum(len(result.get("body", "")) for result in results[3:])
-                    logger.debug(f"... and {remaining_results} more results ({remaining_content:,} chars)")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
             return results
 
@@ -324,6 +324,14 @@ class MCPRetriever:
     def search(self, max_results: int = 10) -> list[dict[str, str]]:
         """
 <<<<<<< HEAD
+        Synchronous wrapper around search_async that performs an MCP-based search for the retriever's query.
+        
+        If an asyncio event loop is already running, the method runs the async search in a separate thread with its own event loop and performs thorough cleanup of pending tasks and the loop; otherwise it runs the coroutine directly. Returns an empty list if no MCP server configurations are available or if an error occurs (the method does not raise in those cases).
+        
+        Parameters:
+            max_results (int): Maximum number of results to return (default 10).
+        
+=======
         Perform a search using MCP tools with intelligent two-stage approach.
 
         This is the synchronous interface required by GPT Researcher.
@@ -332,15 +340,7 @@ class MCPRetriever:
         Args:
             max_results: Maximum number of results to return.
 
-=======
-        Synchronous wrapper around search_async that performs an MCP-based search for the retriever's query.
-        
-        If an asyncio event loop is already running, the method runs the async search in a separate thread with its own event loop and performs thorough cleanup of pending tasks and the loop; otherwise it runs the coroutine directly. Returns an empty list if no MCP server configurations are available or if an error occurs (the method does not raise in those cases).
-        
-        Parameters:
-            max_results (int): Maximum number of results to return (default 10).
-        
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         Returns:
             List[Dict[str, str]]: Search results (possibly empty on error or missing configs).
         """
@@ -454,14 +454,14 @@ class MCPRetriever:
     async def _get_all_tools(self) -> list:
         """
 <<<<<<< HEAD
-        Get all available tools from MCP servers.
-
-=======
         Retrieve all available MCP tools, using a cached value when present.
         
         Asynchronously fetches tools from the MCP client manager. If a non-empty list is returned, the result is cached in self._all_tools_cache and a log is streamed. If no tools are available or an error occurs, a warning or error is streamed and an empty list is returned.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Get all available tools from MCP servers.
+
+>>>>>>> newdev
         Returns:
             List: A list of MCP tool objects/dictionaries; empty list if no tools are available or on error.
         """
@@ -490,4 +490,4 @@ class MCPRetriever:
             return []
 =======
             return []
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

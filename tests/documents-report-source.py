@@ -1,8 +1,8 @@
 import os
 <<<<<<< HEAD
-
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+
+>>>>>>> newdev
 import pytest
 
 from dotenv import load_dotenv

@@ -75,19 +75,16 @@ class ChatAgentWithMemory:
 
     def vector_store_tool(self, vector_store) -> Tool:
 <<<<<<< HEAD
-        """Create Vector Store Tool"""
-<<<<<<< HEAD
-
-=======
->>>>>>> 1027e1d0 (Fix linting issues)
-=======
         """
         Create a retrieval tool that queries the provided vector store for contextual documents.
         
         The returned tool is callable by the agent and accepts a single string `query`. It builds a retriever
         from the given vector store (top-k = 4) and returns the retriever's results for the query.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        """Create Vector Store Tool"""
+
+>>>>>>> newdev
         @tool
         def retrieve_info(query):
             """

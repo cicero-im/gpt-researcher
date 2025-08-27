@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-=======
 import logging
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 import asyncio
 import logging
 

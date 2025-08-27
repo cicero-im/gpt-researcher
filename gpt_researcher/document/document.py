@@ -41,12 +41,12 @@ class DocumentLoader:
                     tasks.append(self._load_document(file_path, file_extension))
 
 <<<<<<< HEAD
-        elif isinstance(self.path, str | bytes | os.PathLike):
-            for root, _dirs, files in os.walk(self.path):
-=======
         elif isinstance(self.path, (str, bytes, os.PathLike)):
             for root, dirs, files in os.walk(self.path):
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        elif isinstance(self.path, str | bytes | os.PathLike):
+            for root, _dirs, files in os.walk(self.path):
+>>>>>>> newdev
                 for file in files:
                     file_path = os.path.join(root, file)
                     file_name, file_extension_with_dot = os.path.splitext(file)
@@ -70,18 +70,18 @@ class DocumentLoader:
             for page in pages:
                 if page.page_content:
 <<<<<<< HEAD
+                    docs.append({
+                        "raw_content": page.page_content,
+                        "url": os.path.basename(page.metadata['source'])
+                    })
+=======
                     docs.append(
                         {
                             "raw_content": page.page_content,
                             "url": os.path.basename(page.metadata["source"]),
                         }
                     )
-=======
-                    docs.append({
-                        "raw_content": page.page_content,
-                        "url": os.path.basename(page.metadata['source'])
-                    })
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
         if not docs:
             raise ValueError("🤷 Failed to load any documents!")

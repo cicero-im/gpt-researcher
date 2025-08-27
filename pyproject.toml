@@ -1,54 +1,6 @@
-[tool.poetry]
-name = "gpt-researcher"
-version = "0.14.3"
-description = "GPT Researcher is an autonomous agent designed for comprehensive online research on a variety of tasks."
-authors = ["Assaf Elovic <assaf.elovic@gmail.com>"]
-license = "MIT"
-readme = "README.md"
-
-[tool.poetry.dependencies]
-python = ">=3.11, <4"
-aiofiles = ">=23.2.1"
-arxiv = ">=2.0.0"
-beautifulsoup4 = ">=4.12.2"
-colorama = ">=0.4.6"
-duckduckgo_search = ">=4.1.1"
-fastapi = ">=0.104.1"
-htmldocx = "^0.0.6"
-jinja2 = ">=3.1.2"
-json-repair = "^0.29.8"
-json5 = "^0.9.25"
-langchain = "^0.3.18"
-langchain_community = "^0.3.17"
-langchain-openai = "^0.3.6"
-langgraph = ">=0.2.73,<0.3"
-loguru = "^0.7.2"
-lxml = { version = ">=4.9.2", extras = ["html_clean"] }
-markdown = ">=3.5.1"
-md2pdf = ">=1.0.1"
-mistune = "^3.0.2"
-openai = ">=1.3.3"
-pydantic = ">=2.5.1"
-PyMuPDF = ">=1.23.6"
-python-docx = "^1.1.0"
-python-dotenv = ">=1.0.0"
-python-multipart = ">=0.0.6"
-pyyaml = ">=6.0.1"
-requests = ">=2.31.0"
-SQLAlchemy = ">=2.0.28"
-psycopg = {version = ">=3", extras = ["binary"]}
-asyncpg = ">=0.29.0"
-tiktoken = ">=0.7.0"
-unstructured = ">=0.13"
-uvicorn = ">=0.24.0.post1"
-websockets = "^13.1"
-# Model Context Protocol support
-mcp = { version = ">=1.0.0", markers = "platform_system != 'Windows'" }
-langchain-mcp-adapters = ">=0.1.0"
-
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
 
 [tool.pytest.ini_options]
 asyncio_mode = "strict"
@@ -166,6 +118,10 @@ max-args = 10
 max-branches = 20
 max-returns = 10
 max-statements = 80
+
+[tool.setuptools.packages.find]
+include = ["gpt_researcher*"]
+exclude = ["evals*", "backend*", "frontend*", "multi_agents*", "highlevel_instructions*"]
 
 [tool.uv.sources]
 gpt-researcher = { workspace = true }

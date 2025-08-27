@@ -183,13 +183,6 @@ class DeepResearch:
         breadth: int,
         depth: int,
 <<<<<<< HEAD
-        learnings: list[str] | None = None,
-        citations: dict[str, str] | None = None,
-        visited_urls: set[str] | None = None,
-        on_progress=None,
-    ) -> dict[str, Any]:
-        """Conduct deep iterative research"""
-=======
         learnings: List[str] = None,
         citations: Dict[str, str] = None,
         visited_urls: Set[str] = None,
@@ -223,7 +216,14 @@ class DeepResearch:
         - Failed per-query processing is logged and skipped; other queries continue.
         - Progress updates (via `on_progress`) occur at start, per-query start/completion, and during recursion.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        learnings: list[str] | None = None,
+        citations: dict[str, str] | None = None,
+        visited_urls: set[str] | None = None,
+        on_progress=None,
+    ) -> dict[str, Any]:
+        """Conduct deep iterative research"""
+>>>>>>> newdev
         if learnings is None:
             learnings = []
         if citations is None:
@@ -248,8 +248,6 @@ class DeepResearch:
         semaphore = asyncio.Semaphore(self.concurrency_limit)
 
 <<<<<<< HEAD
-        async def process_query(serp_query: dict[str, str]) -> dict[str, Any] | None:
-=======
         async def process_query(serp_query: Dict[str, str]) -> Optional[Dict[str, Any]]:
             """
             Process a single SERP query: run a GPTResearcher on the query, analyze its context, and return extracted findings.
@@ -270,7 +268,9 @@ class DeepResearch:
                 - Updates the shared progress object (progress.current_query and progress.completed_queries) and invokes the on_progress callback if provided.
                 - May log errors on failure.
             """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        async def process_query(serp_query: dict[str, str]) -> dict[str, Any] | None:
+>>>>>>> newdev
             async with semaphore:
                 try:
                     progress.current_query = serp_query["query"]
@@ -315,12 +315,12 @@ class DeepResearch:
 
                 except Exception as e:
 <<<<<<< HEAD
+                    logger.error(f"Error processing query '{serp_query['query']}': {e!s}")
+=======
                     logger.error(
                         f"Error processing query '{serp_query['query']}': {e!s}"
                     )
-=======
-                    logger.error(f"Error processing query '{serp_query['query']}': {e!s}")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
                     return None
 
         # Process queries concurrently with limit

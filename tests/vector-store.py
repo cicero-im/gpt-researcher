@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+
+>>>>>>> newdev
 import pytest
 
 from langchain.text_splitter import CharacterTextSplitter

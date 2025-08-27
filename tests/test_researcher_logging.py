@@ -1,9 +1,9 @@
 <<<<<<< HEAD
-=======
 import pytest
 from pathlib import Path
 import sys
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 import logging
 import sys
 
@@ -81,4 +81,4 @@ if __name__ == "__main__":
     pytest.main([__file__])
 =======
     pytest.main([__file__])
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

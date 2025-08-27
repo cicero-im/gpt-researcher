@@ -11,15 +11,15 @@ class BeautifulSoupScraper:
     def scrape(self):
         """
 <<<<<<< HEAD
-        This function scrapes content from a webpage by making a GET request, parsing the HTML using
-        BeautifulSoup, and extracting script and style elements before returning the cleaned content.
-
-=======
         Scrape the webpage at self.link and return its cleaned text, relevant image URLs, and title.
         
         Performs an HTTP GET for the stored URL, parses the HTML with BeautifulSoup, applies cleaning, and extracts the page text, a list of relevant image URLs, and the page title.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        This function scrapes content from a webpage by making a GET request, parsing the HTML using
+        BeautifulSoup, and extracting script and style elements before returning the cleaned content.
+
+>>>>>>> newdev
         Returns:
             tuple:
                 content (str): Cleaned text content of the page (empty string on failure).

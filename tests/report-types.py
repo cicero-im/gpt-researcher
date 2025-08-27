@@ -1,16 +1,16 @@
 <<<<<<< HEAD
-=======
 import pytest
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 from unittest.mock import AsyncMock
 
 import pytest
 
 from backend.server.server_utils import CustomLogsHandler
 <<<<<<< HEAD
-from gpt_researcher.agent import GPTResearcher
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+from gpt_researcher.agent import GPTResearcher
+>>>>>>> newdev
 
 # Define the report types to test
 report_types = ["research_report", "subtopic_report"]

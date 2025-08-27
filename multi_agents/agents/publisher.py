@@ -4,10 +4,6 @@ from .utils.views import print_agent_output
 
 class PublisherAgent:
 <<<<<<< HEAD
-    def __init__(
-        self, output_dir: str, websocket=None, stream_output=None, headers=None
-    ):
-=======
     def __init__(self, output_dir: str, websocket=None, stream_output=None, headers=None):
         """
         Initialize the PublisherAgent.
@@ -19,21 +15,18 @@ class PublisherAgent:
         Notes:
             Stores websocket and stream_output on the instance for optional live streaming; these are passed through without modification.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def __init__(
+        self, output_dir: str, websocket=None, stream_output=None, headers=None
+    ):
+>>>>>>> newdev
         self.websocket = websocket
         self.stream_output = stream_output
         self.output_dir = output_dir.strip()
         self.headers = headers or {}
 
 <<<<<<< HEAD
-    async def publish_research_report(
-        self, research_state: dict, publish_formats: dict
-    ):
-=======
     async def publish_research_report(self, research_state: dict, publish_formats: dict):
-<<<<<<< HEAD
->>>>>>> 1027e1d0 (Fix linting issues)
-=======
         """
         Generate the final report layout from research state and write it to the requested formats.
         
@@ -44,7 +37,11 @@ class PublisherAgent:
         Returns:
             str: The generated Markdown layout string.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def publish_research_report(
+        self, research_state: dict, publish_formats: dict
+    ):
+>>>>>>> newdev
         layout = self.generate_layout(research_state)
         await self.write_report_by_formats(layout, publish_formats)
 
@@ -74,14 +71,14 @@ class PublisherAgent:
                 sections.append(f"{subheader}")
 
 <<<<<<< HEAD
+        sections_text = '\n\n'.join(sections)
+        references = '\n'.join(f"{reference}" for reference in research_state.get("sources", []))
+=======
         sections_text = "\n\n".join(sections)
         references = "\n".join(
             f"{reference}" for reference in research_state.get("sources", [])
         )
-=======
-        sections_text = '\n\n'.join(sections)
-        references = '\n'.join(f"{reference}" for reference in research_state.get("sources", []))
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
         headers = research_state.get("headers", {})
         layout = f"""# {headers.get("title")}
 #### {headers.get("date")}: {research_state.get("date")}
@@ -128,15 +125,15 @@ class PublisherAgent:
         publish_formats = task.get("publish_formats")
         if self.websocket and self.stream_output:
 <<<<<<< HEAD
+            await self.stream_output("logs", "publishing", "Publishing final research report based on retrieved data...", self.websocket)
+=======
             await self.stream_output(
                 "logs",
                 "publishing",
                 "Publishing final research report based on retrieved data...",
                 self.websocket,
             )
-=======
-            await self.stream_output("logs", "publishing", "Publishing final research report based on retrieved data...", self.websocket)
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
         else:
             print_agent_output(
                 output="Publishing final research report based on retrieved data...",

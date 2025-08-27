@@ -53,4 +53,4 @@ if __name__ == "__main__":
     test_logs_creation()
 =======
     test_logs_creation()
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

@@ -15,10 +15,10 @@ from dotenv import load_dotenv
 
 from gpt_researcher.agent import GPTResearcher
 <<<<<<< HEAD
-from gpt_researcher.utils.enum import ReportSource, ReportType, Tone
-=======
 from gpt_researcher.utils.enum import ReportType, ReportSource, Tone
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+from gpt_researcher.utils.enum import ReportSource, ReportType, Tone
+>>>>>>> newdev
 
 from .evaluate import HallucinationEvaluator
 
@@ -42,28 +42,30 @@ class ResearchEvaluator:
     def __init__(self, queries_file: str = DEFAULT_QUERIES_FILE):
         """
 <<<<<<< HEAD
-        Initialize the research evaluator.
-
-        Args:
-            queries_file: Path to JSONL file containing search queries
-=======
         Create a ResearchEvaluator configured to load queries and run hallucination evaluations.
         
         Parameters:
             queries_file (str): Path to a JSONL file containing search query objects (expects each line to be a JSON object with a "question" key). Defaults to DEFAULT_QUERIES_FILE.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Initialize the research evaluator.
+
+        Args:
+            queries_file: Path to JSONL file containing search queries
+>>>>>>> newdev
         """
 
         self.queries_file = Path(queries_file)
         self.hallucination_evaluator = HallucinationEvaluator()
 
 <<<<<<< HEAD
-    def load_queries(self, num_queries: int | None = None) -> list[str]:
-=======
     def load_queries(self, num_queries: Optional[int] = None) -> List[str]:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
+        Load queries from the instance's JSONL queries file and optionally return a random sample.
+        
+        Each line in the file is parsed as JSON and the value under the "question" key is collected in order. If num_queries is provided and is smaller than the total number of queries, a random sample of that many queries is returned; otherwise the full list is returned.
+=======
+    def load_queries(self, num_queries: int | None = None) -> list[str]:
+        """
         Load and optionally sample queries from the JSONL file.
 
         Args:
@@ -71,11 +73,7 @@ class ResearchEvaluator:
 
         Returns:
             List of query strings
-=======
-        Load queries from the instance's JSONL queries file and optionally return a random sample.
-        
-        Each line in the file is parsed as JSON and the value under the "question" key is collected in order. If num_queries is provided and is smaller than the total number of queries, a random sample of that many queries is returned; otherwise the full list is returned.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+>>>>>>> newdev
         """
         queries = []
         with open(self.queries_file) as f:
@@ -88,24 +86,22 @@ class ResearchEvaluator:
         return queries
 
 <<<<<<< HEAD
-    async def run_research(self, query: str) -> dict:
-=======
     async def run_research(self, query: str) -> Dict:
->>>>>>> 1027e1d0 (Fix linting issues)
         """
-<<<<<<< HEAD
-        Run a single query through GPT-Researcher.
-
-        Args:
-            query: The search query to research
-
-=======
         Run a single search query through GPT-Researcher and return the generated report and raw research context.
         
         Parameters:
             query (str): The search/query string to investigate.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def run_research(self, query: str) -> dict:
+        """
+        Run a single query through GPT-Researcher.
+
+        Args:
+            query: The search query to research
+
+>>>>>>> newdev
         Returns:
             dict: A mapping with:
                 - "query" (str): the original input query.
@@ -136,13 +132,6 @@ class ResearchEvaluator:
     ) -> dict:
         """
 <<<<<<< HEAD
-        Evaluate research results for hallucination.
-
-        Args:
-            research_data: Dict containing research results and context
-            output_dir: Optional directory to save evaluation results
-
-=======
         Evaluate a single research result for hallucination and persist the evaluation.
         
         Evaluates the provided research report against its source context using the hallucination evaluator,
@@ -157,7 +146,14 @@ class ResearchEvaluator:
             output_dir (Optional[str]): Directory where evaluation records and aggregates are saved.
                 If None, defaults to DEFAULT_OUTPUT_DIR.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        Evaluate research results for hallucination.
+
+        Args:
+            research_data: Dict containing research results and context
+            output_dir: Optional directory to save evaluation results
+
+>>>>>>> newdev
         Returns:
             Dict: Evaluation result. When "context" is missing, the result will have:
                 - "input", "output", "source" (set to "No source text available"),
@@ -209,12 +205,6 @@ class ResearchEvaluator:
 async def main(num_queries: int = 5, output_dir: str = DEFAULT_OUTPUT_DIR):
     """
 <<<<<<< HEAD
-    Run evaluation on a sample of queries.
-
-    Args:
-        num_queries: Number of queries to evaluate
-        output_dir: Directory to save results
-=======
     Run evaluation across a sampled set of queries: execute research, evaluate for hallucination, save per-query and aggregate results.
     
     This coroutine:
@@ -226,7 +216,13 @@ async def main(num_queries: int = 5, output_dir: str = DEFAULT_OUTPUT_DIR):
     Parameters:
         num_queries (int): Number of queries to sample and process (default 5).
         output_dir (str): Directory where per-query records and the aggregate JSON will be written.
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    Run evaluation on a sample of queries.
+
+    Args:
+        num_queries: Number of queries to evaluate
+        output_dir: Directory to save results
+>>>>>>> newdev
     """
     evaluator = ResearchEvaluator()
 
@@ -267,12 +263,12 @@ async def main(num_queries: int = 5, output_dir: str = DEFAULT_OUTPUT_DIR):
 
     # Calculate hallucination rate
 <<<<<<< HEAD
+    hallucination_rate = (total_hallucinated / total_evaluated) if total_evaluated > 0 else None
+=======
     hallucination_rate = (
         (total_hallucinated / total_evaluated) if total_evaluated > 0 else None
     )
-=======
-    hallucination_rate = (total_hallucinated / total_evaluated) if total_evaluated > 0 else None
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
     # Save aggregate results
     aggregate_results = {
@@ -319,4 +315,4 @@ if __name__ == "__main__":
     asyncio.run(main(args.num_queries, args.output_dir))
 =======
     asyncio.run(main(args.num_queries, args.output_dir))
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

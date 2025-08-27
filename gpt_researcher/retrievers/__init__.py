@@ -16,16 +16,15 @@ from .tavily.tavily_search import TavilySearch
 
 __all__ = [
     "ArxivSearch",
-<<<<<<< HEAD
-    "ArxivSearch",
-    "BingSearch",
-=======
->>>>>>> 1027e1d0 (Fix linting issues)
     "BingSearch",
     "CustomRetriever",
     "Duckduckgo",
     "ExaSearch",
     "GoogleSearch",
+<<<<<<< HEAD
+=======
+    "JinaSearch",
+>>>>>>> newdev
     "MCPRetriever",
     "PubMedCentralSearch",
     "SearchApiSearch",
@@ -34,7 +33,8 @@ __all__ = [
     "SerpApiSearch",
     "SerperSearch",
 <<<<<<< HEAD
-=======
     "TavilySearch"
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+    "TavilySearch",
+>>>>>>> newdev
 ]

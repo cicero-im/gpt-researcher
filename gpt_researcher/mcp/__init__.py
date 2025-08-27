@@ -24,9 +24,9 @@ try:
     from .research import MCPResearchSkill
     from .streaming import MCPStreamer
 <<<<<<< HEAD
-    from .tool_selector import MCPToolSelector
 =======
->>>>>>> 1027e1d0 (Fix linting issues)
+    from .tool_selector import MCPToolSelector
+>>>>>>> newdev
 
     __all__ = [
         "HAS_MCP_ADAPTERS",
@@ -34,11 +34,11 @@ try:
         "MCPResearchSkill",
         "MCPStreamer",
 <<<<<<< HEAD
+        "MCPToolSelector"
+=======
         "MCPToolSelector",
         "MultiServerMCPClient",
-=======
-        "MCPToolSelector"
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
     ]
 
 except ImportError as e:
@@ -53,4 +53,4 @@ except Exception as e:
     __all__ = ["HAS_MCP_ADAPTERS"]
 =======
     __all__ = ["HAS_MCP_ADAPTERS"]
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

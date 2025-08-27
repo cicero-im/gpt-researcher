@@ -6,9 +6,6 @@ class ArxivSearch:
     Arxiv API Retriever
     """
 <<<<<<< HEAD
-
-    def __init__(self, query, sort="Relevance", query_domains=None):
-=======
     def __init__(self, query, sort='Relevance', query_domains=None):
         """
         Initialize the ArxivSearch wrapper.
@@ -22,21 +19,23 @@ class ArxivSearch:
         - Stores the arxiv module on self.arxiv and the query on self.query.
         - Maps the `sort` string to the corresponding arxiv.SortCriterion and stores it on self.sort.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
         self.arxiv = arxiv
         self.query = query
-<<<<<<< HEAD
+        assert sort in ['Relevance', 'SubmittedDate'], "Invalid sort criterion"
+        self.sort = arxiv.SortCriterion.SubmittedDate if sort == 'SubmittedDate' else arxiv.SortCriterion.Relevance
+
+=======
+
+    def __init__(self, query, sort="Relevance", query_domains=None):
+        self.arxiv = arxiv
+        self.query = query
         assert sort in ["Relevance", "SubmittedDate"], "Invalid sort criterion"
         self.sort = (
             arxiv.SortCriterion.SubmittedDate
             if sort == "SubmittedDate"
             else arxiv.SortCriterion.Relevance
         )
-=======
-        assert sort in ['Relevance', 'SubmittedDate'], "Invalid sort criterion"
-        self.sort = arxiv.SortCriterion.SubmittedDate if sort == 'SubmittedDate' else arxiv.SortCriterion.Relevance
-
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
     def search(self, max_results=5):
         """
@@ -76,8 +75,6 @@ class ArxivSearch:
             )
 
 <<<<<<< HEAD
-        return search_result
-=======
             search_result.append({
                 "title": result.title,
                 "href": result.pdf_url,
@@ -85,4 +82,6 @@ class ArxivSearch:
             })
 
         return search_result
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        return search_result
+>>>>>>> newdev

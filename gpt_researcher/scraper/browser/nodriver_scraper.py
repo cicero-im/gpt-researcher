@@ -1,5 +1,4 @@
 <<<<<<< HEAD
-=======
 from contextlib import asynccontextmanager
 import math
 from pathlib import Path
@@ -9,7 +8,8 @@ from urllib.parse import urlparse
 from bs4 import BeautifulSoup
 from typing import Dict, Literal, cast, Tuple
 import requests
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 import asyncio
 import logging
 import math
@@ -155,12 +155,12 @@ class NoDriverScraper:
             except Exception as e:
                 # Log error but don't block the request
 <<<<<<< HEAD
-                NoDriverScraper.logger.warning(f"Rate limiting error for {url}: {e!s}")
-=======
                 NoDriverScraper.logger.warning(
                     f"Rate limiting error for {url}: {e!s}"
                 )
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+                NoDriverScraper.logger.warning(f"Rate limiting error for {url}: {e!s}")
+>>>>>>> newdev
 
         async def stop(self):
             """
@@ -229,9 +229,6 @@ class NoDriverScraper:
         self.debug = False
 
 <<<<<<< HEAD
-    async def scrape_async(self) -> tuple[str, list[dict], str]:
-        """Returns tuple of (text, image_urls, title)"""
-=======
     async def scrape_async(self) -> Tuple[str, list[dict], str]:
         """
         Fetch the page at self.url using a headless browser and extract its main text, relevant image URLs, and title.
@@ -244,7 +241,10 @@ class NoDriverScraper:
                 - image_urls: a list of image metadata/dictionaries relevant to the page (empty on error).
                 - title: the extracted page title (empty on error).
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    async def scrape_async(self) -> tuple[str, list[dict], str]:
+        """Returns tuple of (text, image_urls, title)"""
+>>>>>>> newdev
         if not self.url:
             return (
                 "A URL was not specified, cancelling request to browse website.",

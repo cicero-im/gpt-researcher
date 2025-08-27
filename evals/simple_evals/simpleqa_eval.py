@@ -4,13 +4,13 @@ Adapted for GPT-Researcher from OpenAI's simple-evals
 """
 
 <<<<<<< HEAD
+import pandas
+import random
+=======
 import random
 
 import pandas
-=======
-import pandas
-import random
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
 
 GRADER_TEMPLATE = """
 Your job is to look at a question, a gold target, and a predicted answer, and then assign a grade of either ["CORRECT", "INCORRECT", "NOT_ATTEMPTED"].
@@ -101,6 +101,7 @@ CHOICE_LETTER_TO_STRING = dict(zip(CHOICE_LETTERS, CHOICE_STRINGS, strict=False)
 
 class SimpleQAEval:
     def __init__(self, grader_model, num_examples=1):
+<<<<<<< HEAD
         """
         Initialize the evaluator, load the QA test set, and sample examples.
         
@@ -111,16 +112,19 @@ class SimpleQAEval:
         
         The provided grader_model is expected to implement an invoke(messages) method used later for grading.
         """
+=======
+        """Initialize the evaluator with a grader model and number of examples."""
+>>>>>>> newdev
         self.grader_model = grader_model
 
         # Load all examples from CSV
         csv_url = "https://openaipublic.blob.core.windows.net/simple-evals/simple_qa_test_set.csv"
         df = pandas.read_csv(csv_url)
 <<<<<<< HEAD
-        all_examples = df.to_dict("records")
-=======
         all_examples = df.to_dict('records')
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+        all_examples = df.to_dict("records")
+>>>>>>> newdev
 
         # Randomly select num_examples without replacement
         if num_examples > len(all_examples):
@@ -176,11 +180,6 @@ class SimpleQAEval:
         }
 
 <<<<<<< HEAD
-    def grade_response(
-        self, question: str, correct_answer: str, model_answer: str
-    ) -> str:
-        """Grade a single response using the grader model."""
-=======
     def grade_response(self, question: str, correct_answer: str, model_answer: str) -> str:
         """
         Grade a single model answer against the gold target using the configured grader model.
@@ -199,7 +198,12 @@ class SimpleQAEval:
         Returns:
             str: One of "CORRECT", "INCORRECT", or "NOT_ATTEMPTED" indicating the grader's decision.
         """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+    def grade_response(
+        self, question: str, correct_answer: str, model_answer: str
+    ) -> str:
+        """Grade a single response using the grader model."""
+>>>>>>> newdev
         print("\n=== Grading Details ===")
         print(f"Question: {question}")
         print(f"Gold target: {correct_answer}")
@@ -228,4 +232,4 @@ class SimpleQAEval:
         return grade
 =======
         return grade
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev

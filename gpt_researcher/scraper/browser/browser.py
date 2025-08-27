@@ -13,15 +13,15 @@ from sys import platform
 from bs4 import BeautifulSoup
 
 <<<<<<< HEAD
-from ..utils import clean_soup, extract_title, get_relevant_images, get_text_from_soup
-from .processing.scrape_skills import scrape_pdf_with_arxiv, scrape_pdf_with_pymupdf
-=======
 from .processing.scrape_skills import (scrape_pdf_with_pymupdf,
                                        scrape_pdf_with_arxiv)
 
 
 from ..utils import get_relevant_images, extract_title, get_text_from_soup, clean_soup
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+from ..utils import clean_soup, extract_title, get_relevant_images, get_text_from_soup
+from .processing.scrape_skills import scrape_pdf_with_arxiv, scrape_pdf_with_pymupdf
+>>>>>>> newdev
 
 FILE_DIR = Path(__file__).parent.parent
 
@@ -71,14 +71,14 @@ class BrowserScraper:
             print("Full stack trace:")
             print(traceback.format_exc())
 <<<<<<< HEAD
+            return f"An error occurred: {e!s}\n\nStack trace:\n{traceback.format_exc()}", [], ""
+=======
             return (
                 f"An error occurred: {e!s}\n\nStack trace:\n{traceback.format_exc()}",
                 [],
                 "",
             )
-=======
-            return f"An error occurred: {e!s}\n\nStack trace:\n{traceback.format_exc()}", [], ""
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
         finally:
             if self.driver:
                 self.driver.quit()

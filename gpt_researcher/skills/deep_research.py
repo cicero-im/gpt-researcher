@@ -7,11 +7,11 @@ from typing import Any
 
 from gpt_researcher.llm_provider.generic.base import ReasoningEfforts
 <<<<<<< HEAD
-
-=======
 from ..utils.llm import create_chat_completion
 from ..utils.enum import ReportType, ReportSource
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+
+>>>>>>> newdev
 from ..actions.query_processing import get_search_results
 from ..utils.enum import ReportSource, ReportType
 from ..utils.llm import create_chat_completion
@@ -233,17 +233,6 @@ Format each question on a new line starting with 'Question: '""",
 
     async def deep_research(
 <<<<<<< HEAD
-        self,
-        query: str,
-        breadth: int,
-        depth: int,
-        learnings: list[str] | None = None,
-        citations: dict[str, str] | None = None,
-        visited_urls: set[str] | None = None,
-        on_progress=None,
-    ) -> dict[str, Any]:
-        """Conduct deep iterative research"""
-=======
             self,
             query: str,
             breadth: int,
@@ -284,7 +273,18 @@ Format each question on a new line starting with 'Question: '""",
                 - Extends self.context and self.research_sources with collected context and sources.
                 - Does not re-raise exceptions from individual subquery processing; those queries are logged and skipped.
             """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        self,
+        query: str,
+        breadth: int,
+        depth: int,
+        learnings: list[str] | None = None,
+        citations: dict[str, str] | None = None,
+        visited_urls: set[str] | None = None,
+        on_progress=None,
+    ) -> dict[str, Any]:
+        """Conduct deep iterative research"""
+>>>>>>> newdev
         if learnings is None:
             learnings = []
         if citations is None:
@@ -311,8 +311,6 @@ Format each question on a new line starting with 'Question: '""",
         semaphore = asyncio.Semaphore(self.concurrency_limit)
 
 <<<<<<< HEAD
-        async def process_query(serp_query: dict[str, str]) -> dict[str, Any] | None:
-=======
         async def process_query(serp_query: Dict[str, str]) -> Optional[Dict[str, Any]]:
             """
             Process a single SERP-style query: run web research, extract learnings and citations, and return aggregated results.
@@ -343,7 +341,9 @@ Format each question on a new line starting with 'Question: '""",
                 - Updates researcher state (visited URLs / research sources) indirectly via GPTResearcher.
                 - Logs errors and returns None on exceptions.
             """
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        async def process_query(serp_query: dict[str, str]) -> dict[str, Any] | None:
+>>>>>>> newdev
             async with semaphore:
                 try:
                     progress.current_query = serp_query["query"]
@@ -393,12 +393,12 @@ Format each question on a new line starting with 'Question: '""",
 
                 except Exception as e:
 <<<<<<< HEAD
+                    logger.error(f"Error processing query '{serp_query['query']}': {e!s}")
+=======
                     logger.error(
                         f"Error processing query '{serp_query['query']}': {e!s}"
                     )
-=======
-                    logger.error(f"Error processing query '{serp_query['query']}': {e!s}")
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
                     return None
 
         # Process queries concurrently with limit

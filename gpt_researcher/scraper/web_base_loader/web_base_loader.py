@@ -1,7 +1,7 @@
 <<<<<<< HEAD
-=======
 from bs4 import BeautifulSoup
->>>>>>> 1027e1d0 (Fix linting issues)
+=======
+>>>>>>> newdev
 import requests
 
 from bs4 import BeautifulSoup
@@ -17,15 +17,15 @@ class WebBaseLoaderScraper:
     def scrape(self) -> tuple:
         """
 <<<<<<< HEAD
-        This Python function scrapes content from a webpage using a WebBaseLoader object and returns the
-        concatenated page content.
-
-=======
         Scrape a web page's main text content, relevant image URLs, and HTML title.
         
         Uses a WebBaseLoader to load and concatenate document content for the given link, then performs an HTTP GET and parses the page with BeautifulSoup to extract relevant image URLs and the page title.
         
->>>>>>> 9a0c4dfe (📝 Add docstrings to `enhancements/highlevel-instructions`)
+=======
+        This Python function scrapes content from a webpage using a WebBaseLoader object and returns the
+        concatenated page content.
+
+>>>>>>> newdev
         Returns:
             tuple: (content, image_urls, title)
                 - content (str): Concatenated page text produced by WebBaseLoader (empty string on failure).

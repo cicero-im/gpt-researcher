@@ -36,4 +36,4 @@ except Exception as e:
     __all__ = []
 =======
     __all__ = []
->>>>>>> 1027e1d0 (Fix linting issues)
+>>>>>>> newdev
